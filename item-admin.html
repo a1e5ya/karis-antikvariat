@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objektdetaljer Admin - Karis Antikvariat</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header will be loaded here -->
+    <div id="header-container"></div>
+
+    <!-- Main Content Container -->
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Objektdetaljer</h1>
+            <div>
+                <a href="inventory.html" class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-arrow-left me-1"></i> Tillbaka till lagerhantering
+                </a>
+                <button class="btn btn-primary" id="save-item-btn">
+                    <i class="fas fa-save me-1"></i> Spara ändringar
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Item Image and Upload -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Objektbild</h5>
+                        <div class="item-image-container mb-3">
+                            <img src="" alt="Objektbild" class="img-fluid rounded shadow" id="item-image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="item-image-upload" class="form-label">Ladda upp ny bild</label>
+                            <input class="form-control" type="file" id="item-image-upload">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Details Form -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Grundinformation</h5>
+                        <form id="edit-item-form">
+                            <!-- Hidden ID field -->
+                            <input type="hidden" id="item-id">
+
+                            <div class="row mb-3">
+                                <div class="col-md-8">
+                                    <label for="edit-title" class="form-label">Titel</label>
+                                    <input type="text" class="form-control" id="edit-title" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="edit-status" class="form-label">Status</label>
+                                    <select class="form-select" id="edit-status">
+                                        <option value="Tillgänglig">Tillgänglig</option>
+                                        <option value="Såld">Såld</option>
+                                        <option value="Reserverad">Reserverad</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="edit-author-first" class="form-label">Författare förnamn</label>
+                                    <input type="text" class="form-control" id="edit-author-first">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="edit-author-last" class="form-label">Författare efternamn</label>
+                                    <input type="text" class="form-control" id="edit-author-last">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="edit-category" class="form-label">Kategori</label>
+                                    <select class="form-select" id="edit-category" required onchange="updateImagePreview()">
+                                        <option value="">Välj kategori</option>
+                                        <option value="Bok - Finlandssvenska">Bok - Finlandssvenska</option>
+                                        <option value="Bok - Lokalhistoria">Bok - Lokalhistoria</option>
+                                        <option value="Bok - Sjöfart">Bok - Sjöfart</option>
+                                        <option value="Bok - Barn/Ungdom">Bok - Barn/Ungdom</option>
+                                        <option value="CD - Musik">CD - Musik</option>
+                                        <option value="Vinyl - Musik">Vinyl - Musik</option>
+                                        <option value="DVD - Film">DVD - Film</option>
+                                        <option value="Serier">Serier</option>
+                                        <option value="Samlarobjekt">Samlarobjekt</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="edit-genre" class="form-label">Genre</label>
+                                    <select class="form-select" id="edit-genre">
+                                        <option value="">Välj genre</option>
+                                        <option value="Romaner">Romaner</option>
+                                        <option value="Dikter">Dikter</option>
+                                        <option value="Historia">Historia</option>
+                                        <option value="Biografi">Biografi</option>
+                                        <option value="Rock">Rock</option>
+                                        <option value="Jazz">Jazz</option>
+                                        <option value="Klassisk">Klassisk</option>
+                                        <option value="Barnböcker">Barnböcker</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="edit-price" class="form-label">Pris (€)</label>
+                                    <input type="number" step="0.01" class="form-control" id="edit-price" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="edit-condition" class="form-label">Skick</label>
+                                    <select class="form-select" id="edit-condition">
+                                        <option value="">Välj skick</option>
+                                        <option value="Nyskick">Nyskick</option>
+                                        <option value="Mycket bra">Mycket bra</option>
+                                        <option value="Bra">Bra</option>
+                                        <option value="Acceptabelt">Acceptabelt</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="edit-shelf" class="form-label">Hyllplats</label>
+                                    <select class="form-select" id="edit-shelf">
+                                        <option value="">Välj hylla</option>
+                                        <option value="A1">A1</option>
+                                        <option value="A2">A2</option>
+                                        <option value="B1">B1</option>
+                                        <option value="B2">B2</option>
+                                        <option value="C1">C1</option>
+                                        <option value="C2">C2</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="edit-notes" class="form-label">Anteckningar (synlig för kunder)</label>
+                                <textarea class="form-control" id="edit-notes" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-internal-notes" class="form-label">Interna anteckningar (endast för personal)</label>
+                                <textarea class="form-control" id="edit-internal-notes" rows="2"></textarea>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edit-special-price">
+                                        <label class="form-check-label" for="edit-special-price">
+                                            Speciellt pris
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edit-rare">
+                                        <label class="form-check-label" for="edit-rare">
+                                            Sällsynt objekt
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-3 border-danger">
+                                <div class="card-body">
+                                    <h5 class="card-title text-danger">Farlig zon</h5>
+                                    <p class="card-text">Följande åtgärder kan inte ångras.</p>
+                                    <button type="button" class="btn btn-outline-danger" id="delete-item-btn">
+                                        <i class="fas fa-trash-alt me-1"></i> Ta bort objekt
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Transaktionshistorik</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" id="transaction-history-table">
+                        <thead>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Åtgärd</th>
+                                <th>Användare</th>
+                                <th>Anteckningar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-history-body">
+                            <tr>
+                                <td>2024-02-25 14:32</td>
+                                <td>Objekt skapat</td>
+                                <td>admin</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-container"></div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script src="namespace.js"></script>
+    <script src="mockItems.js"></script>
+    <script src="core.js"></script>
+    <script src="database.js"></script>
+    <script src="admin.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Load header and footer
+        $(document).ready(function() {
+            // Load the admin header
+            $("#header-container").load("header-admin.html", function() {
+                // Check if user is authenticated
+                if (!isAuthenticated()) {
+                    // Redirect to inventory page if not authenticated
+                    window.location.href = "inventory.html";
+                    return;
+                }
+            });
+            
+            // Load the admin footer
+            $("#footer-container").load("footer-admin.html");
+            
+            // Get item ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemId = parseInt(urlParams.get('id'));
+            
+            // Load item details for editing
+            if (!isNaN(itemId)) {
+                loadItemDetailsAdmin(itemId);
+            } else {
+                alert('Ogiltigt objekt-ID');
+                window.location.href = 'inventory.html';
+            }
+            
+            // Save button event handler
+            $("#save-item-btn").click(function() {
+                if ($("#edit-item-form")[0].checkValidity()) {
+                    saveItemChanges();
+                } else {
+                    $("#edit-item-form")[0].reportValidity();
+                }
+            });
+            
+            // Delete button event handler
+            $("#delete-item-btn").click(function() {
+                confirmDeleteItem();
+            });
+            
+            // Add category change handler to update image preview
+            $("#edit-category").change(function() {
+                updateImagePreview();
+            });
+        });
+        
+        // Helper function to get the appropriate image based on category
+        function getCategoryImage(category) {
+            if (category.toLowerCase().includes("bok")) {
+                return "img/src-book.webp";
+            } else if (category.toLowerCase().includes("cd")) {
+                return "img/src-cd.webp";
+            } else if (category.toLowerCase().includes("vinyl")) {
+                return "img/src-music.webp";
+            } else if (category.toLowerCase().includes("serier")) {
+                return "img/src-magazine.webp";
+            } else {
+                // Default image for other categories
+                return "img/src-book.webp";
+            }
+        }
+        
+        // Update the item image preview based on the selected category
+        function updateImagePreview() {
+            const category = $("#edit-category").val();
+            if (category) {
+                const imageSrc = getCategoryImage(category);
+                $("#item-image").attr("src", imageSrc);
+            }
+        }
+        
+        // Override the loadItemDetailsAdmin function to include dynamic image
+        function loadItemDetailsAdmin(itemId) {
+            const item = KarisAntikvariat.mockItems.find(item => item.id === itemId);
+            
+            if (!item) {
+                alert('Objektet hittades inte');
+                window.location.href = 'inventory.html';
+                return;
+            }
+            
+            // Set document title
+            document.title = 'Redigera: ' + item.title + ' - Karis Antikvariat';
+            
+            // Get and set the appropriate image based on category
+            const imageSrc = getCategoryImage(item.category);
+            $('#item-image').attr('src', imageSrc).attr('alt', item.title);
+            
+            // Split author name
+            let authorFirst = '';
+            let authorLast = '';
+            if (item.author) {
+                const authorParts = item.author.split(' ');
+                if (authorParts.length > 1) {
+                    authorLast = authorParts.pop();
+                    authorFirst = authorParts.join(' ');
+                } else {
+                    authorLast = item.author;
+                }
+            }
+            
+            // Populate form fields
+            $('#item-id').val(item.id);
+            $('#edit-title').val(item.title);
+            $('#edit-status').val(item.status);
+            $('#edit-author-first').val(authorFirst);
+            $('#edit-author-last').val(authorLast);
+            $('#edit-category').val(item.category);
+            $('#edit-genre').val(item.genre);
+            $('#edit-condition').val(item.condition);
+            $('#edit-shelf').val(item.shelf);
+            $('#edit-price').val(item.price);
+            $('#edit-notes').val(item.notes);
+            $('#edit-internal-notes').val(item.internalNotes);
+            $('#edit-special-price').prop('checked', item.specialPrice);
+            $('#edit-rare').prop('checked', item.rare);
+        }
+    </script>
+</body>
+</html>

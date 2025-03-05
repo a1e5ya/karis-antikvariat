@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lagerhanteringssystem - Karis Antikvariat</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header will be loaded here -->
+    <div id="header-container"></div>
+
+    <!-- Main Content Container -->
+    <div class="container my-4">
+        <!-- Inventory System -->
+        <div id="inventory-system">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Lagerhanteringssystem</h1>
+            </div>
+
+        <!-- Tab Navigation Update -->
+        <ul class="nav nav-tabs" id="inventory-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="search-tab" data-bs-toggle="tab" href="#search">Sök</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="add-tab" data-bs-toggle="tab" href="#add">Lägg till objekt</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="edit-database-tab" data-bs-toggle="tab" href="#edit-database">Redigera databas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="lists-tab" data-bs-toggle="tab" href="#lists">Listor</a>
+            </li>
+        </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content border border-top-0 p-4 bg-white">
+                <!-- Search Tab -->
+                <div class="tab-pane fade show active" id="search">
+                    <div class="row mb-3">
+                        <div class="col-12 mb-3">
+                            <label for="search-term" class="form-label">Sökterm</label>
+                            <input type="text" class="form-control" id="search-term" placeholder="Ange titel, författare eller ID">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="category-filter" class="form-label">Kategorifilter</label>
+                            <select class="form-select" id="category-filter">
+                                <option value="any">Alla</option>
+                                <option value="bok">Böcker</option>
+                                <option value="finlandssvenska">Finlandssvenska författare</option>
+                                <option value="lokalhistoria">Lokalhistoria</option>
+                                <option value="sjöfart">Sjöfart</option>
+                                <option value="barn">Barn- och ungdomsböcker</option>
+                                <option value="cd">CD-skivor</option>
+                                <option value="vinyl">Vinylskivor</option>
+                                <option value="dvd">DVD-filmer</option>
+                                <option value="serier">Serier</option>
+                                <option value="samlar">Samlarobjekt</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button id="search-btn" class="btn btn-primary w-100">Sök</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table table-hover" id="inventory-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titel</th>
+                                    <th>Författare</th>
+                                    <th>Kategori</th>
+                                    <th>Hylla</th>
+                                    <th>Pris</th>
+                                    <th>Status</th>
+                                    <th>Åtgärder</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-body">
+                                <!-- Table content will be loaded by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Add Item Tab -->
+<div class="tab-pane fade" id="add">
+    <div class="row">
+        <!-- Item Image and Upload -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Objektbild</h5>
+                    <div class="item-image-container mb-3">
+                        <img src="img/src-book.webp" alt="Objektbild" class="img-fluid rounded shadow" id="new-item-image">
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-image-upload" class="form-label">Ladda upp bild</label>
+                        <input class="form-control" type="file" id="item-image-upload">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item Details Form -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Grundinformation</h5>
+                    <form id="add-item-form">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="item-title" class="form-label">Titel</label>
+                                <input type="text" class="form-control" id="item-title" name="title" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="item-status" class="form-label">Status</label>
+                                <select class="form-select" id="item-status" name="status">
+                                    <option value="Tillgänglig" selected>Tillgänglig</option>
+                                    <option value="Reserverad">Reserverad</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="author-first" class="form-label">Författare förnamn</label>
+                                <input type="text" class="form-control" id="author-first" name="authorFirstName">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="author-last" class="form-label">Författare efternamn</label>
+                                <input type="text" class="form-control" id="author-last" name="authorLastName">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="item-category" class="form-label">Kategori</label>
+                                <select class="form-select" id="item-category" name="category" required onchange="updateNewItemImagePreview()">
+                                    <option value="">Välj kategori</option>
+                                    <option value="Bok - Finlandssvenska">Bok - Finlandssvenska</option>
+                                    <option value="Bok - Lokalhistoria">Bok - Lokalhistoria</option>
+                                    <option value="Bok - Sjöfart">Bok - Sjöfart</option>
+                                    <option value="Bok - Barn/Ungdom">Bok - Barn/Ungdom</option>
+                                    <option value="CD - Musik">CD - Musik</option>
+                                    <option value="Vinyl - Musik">Vinyl - Musik</option>
+                                    <option value="DVD - Film">DVD - Film</option>
+                                    <option value="Serier">Serier</option>
+                                    <option value="Samlarobjekt">Samlarobjekt</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="item-genre" class="form-label">Genre</label>
+                                <select class="form-select" id="item-genre" name="genre">
+                                    <option value="">Välj genre</option>
+                                    <option value="Romaner">Romaner</option>
+                                    <option value="Dikter">Dikter</option>
+                                    <option value="Historia">Historia</option>
+                                    <option value="Biografi">Biografi</option>
+                                    <option value="Rock">Rock</option>
+                                    <option value="Jazz">Jazz</option>
+                                    <option value="Klassisk">Klassisk</option>
+                                    <option value="Barnböcker">Barnböcker</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="item-price" class="form-label">Pris (€)</label>
+                                <input type="number" step="0.01" class="form-control" id="item-price" name="price" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="item-condition" class="form-label">Skick</label>
+                                <select class="form-select" id="item-condition" name="condition">
+                                    <option value="">Välj skick</option>
+                                    <option value="Nyskick">Nyskick</option>
+                                    <option value="Mycket bra">Mycket bra</option>
+                                    <option value="Bra">Bra</option>
+                                    <option value="Acceptabelt">Acceptabelt</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="item-shelf" class="form-label">Hyllplats</label>
+                                <select class="form-select" id="item-shelf" name="shelf">
+                                    <option value="">Välj hylla</option>
+                                    <option value="A1">A1</option>
+                                    <option value="A2">A2</option>
+                                    <option value="B1">B1</option>
+                                    <option value="B2">B2</option>
+                                    <option value="C1">C1</option>
+                                    <option value="C2">C2</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="item-language" class="form-label">Språk</label>
+                                <select class="form-select" id="item-language" name="language">
+                                    <option value="">Välj språk</option>
+                                    <option value="Svenska">Svenska</option>
+                                    <option value="Finska">Finska</option>
+                                    <option value="Engelska">Engelska</option>
+                                    <option value="Svenska/Engelska">Svenska/Engelska</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="item-year" class="form-label">Utgivningsår</label>
+                                <input type="number" class="form-control" id="item-year" name="year">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="item-publisher" class="form-label">Förlag</label>
+                                <input type="text" class="form-control" id="item-publisher" name="publisher">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="item-notes" class="form-label">Anteckningar (synlig för kunder)</label>
+                            <textarea class="form-control" id="item-notes" name="notes" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="item-internal-notes" class="form-label">Interna anteckningar (endast för personal)</label>
+                            <textarea class="form-control" id="item-internal-notes" name="internalNotes" rows="2"></textarea>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="item-special-price" name="specialPrice">
+                                    <label class="form-check-label" for="item-special-price">
+                                        Speciellt pris
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="item-rare" name="rare">
+                                    <label class="form-check-label" for="item-rare">
+                                        Sällsynt objekt
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="button" id="clear-form-btn" class="btn btn-outline-secondary me-2">Rensa</button>
+                            <button type="submit" class="btn btn-primary">Lägg till</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Database Tab Content -->
+<div class="tab-pane fade" id="edit-database">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4 class="mb-3">Hantera databasreferenser</h4>
+            <p class="text-muted">Lägg till, redigera eller ta bort kategorier, hyllplatser, genrer och andra referensvärden.</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Categories Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Kategorier</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <input type="text" class="form-control me-2" id="new-category" placeholder="Ny kategori">
+                        <button class="btn btn-primary" id="add-category-btn">Lägg till</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kategorinamn</th>
+                                    <th>Åtgärder</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categories-list">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Bok - Finlandssvenska</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Bok - Lokalhistoria</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <!-- More categories would be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Shelf Locations Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Hyllplatser</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <input type="text" class="form-control me-2" id="new-shelf" placeholder="Ny hyllplats">
+                        <button class="btn btn-primary" id="add-shelf-btn">Lägg till</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Hyllnamn</th>
+                                    <th>Åtgärder</th>
+                                </tr>
+                            </thead>
+                            <tbody id="shelves-list">
+                                <tr>
+                                    <td>1</td>
+                                    <td>A1</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>A2</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <!-- More shelves would be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Genres Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Genrer</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <input type="text" class="form-control me-2" id="new-genre" placeholder="Ny genre">
+                        <button class="btn btn-primary" id="add-genre-btn">Lägg till</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Genrenamn</th>
+                                    <th>Åtgärder</th>
+                                </tr>
+                            </thead>
+                            <tbody id="genres-list">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Romaner</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Dikter</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <!-- More genres would be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Condition Types Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Skickkategorier</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <input type="text" class="form-control me-2" id="new-condition" placeholder="Ny skickkategori">
+                        <button class="btn btn-primary" id="add-condition-btn">Lägg till</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Skickbenämning</th>
+                                    <th>Åtgärder</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conditions-list">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Nyskick</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Mycket bra</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">Redigera</button>
+                                        <button class="btn btn-sm btn-outline-danger">Ta bort</button>
+                                    </td>
+                                </tr>
+                                <!-- More condition types would be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                <!-- Lists Tab -->
+                <div class="tab-pane fade" id="lists">
+                    <div class="mb-4">
+                        <h3 class="mb-3">Sparade listor</h3>
+                        
+                        <div class="btn-group mb-3">
+                            <button class="btn btn-primary" id="all-items-btn">Alla objekt</button>
+                            <button class="btn btn-outline-secondary" id="custom-lists-btn">Anpassade listor</button>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <label for="list-categories" class="form-label">Kategori</label>
+                                <select class="form-select" id="list-categories" multiple size="3">
+                                    <option value="bok">Böcker</option>
+                                    <option value="cd">CD-skivor</option>
+                                    <option value="dvd">DVD-filmer</option>
+                                    <option value="vinyl">Vinylskivor</option>
+                                    <option value="serier">Serier</option>
+                                    <option value="samlar">Samlarobjekt</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <label class="form-label">Prisintervall</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="price-min" placeholder="Min €">
+                                    <span class="input-group-text">till</span>
+                                    <input type="number" class="form-control" id="price-max" placeholder="Max €">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label for="list-status" class="form-label">Status</label>
+                                <select class="form-select" id="list-status">
+                                    <option value="all">Alla statusar</option>
+                                    <option value="available">Tillgänglig</option>
+                                    <option value="sold">Såld</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-end mb-3">
+                            <button class="btn btn-outline-secondary" id="print-list-btn">Skriv ut lista</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="lists-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th><input type="checkbox" id="select-all"></th>
+                                    <th>ID</th>
+                                    <th>Titel</th>
+                                    <th>Författare</th>
+                                    <th>Kategori</th>
+                                    <th>Pris</th>
+                                    <th>Tillagd datum</th>
+                                    <th>Åtgärder</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lists-body">
+                                <!-- Table content will be loaded by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end mt-3">
+                        <div class="d-flex align-items-center">
+                            <span class="me-2">Sida 1 av 1</span>
+                            <button class="btn btn-sm btn-outline-secondary me-1" disabled>«</button>
+                            <button class="btn btn-sm btn-outline-secondary" disabled>»</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-container"></div>
+
+   <!-- Bootstrap & jQuery JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Custom JS -->
+<script src="namespace.js"></script>
+<script src="mockItems.js"></script>
+<script src="core.js"></script>
+<script src="database.js"></script>
+<script src="admin.js"></script>
+<script src="auth.js"></script>
+
+<script>
+    // Load header and footer
+    $(document).ready(function() {
+        // Load the admin header
+        $("#header-container").load("header-admin.html", function() {
+            // Check if user is authenticated
+            if (!isAuthenticated()) {
+                // User is not authenticated - show login modal
+                showLoginModal();
+            } else {
+                // User is authenticated - show welcome message
+                showWelcomeMessage();
+                
+                // Initialize admin functionality
+                initInventorySystem();
+            }
+        });
+        
+        // Load the admin footer
+        $("#footer-container").load("footer-admin.html");
+    });
+    
+    // Initialize inventory system
+    function initInventorySystem() {
+        // Initialize tabs
+        const triggerTabList = [].slice.call(document.querySelectorAll('#inventory-tabs a'));
+        triggerTabList.forEach(function (triggerEl) {
+            const tabTrigger = new bootstrap.Tab(triggerEl);
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault();
+                tabTrigger.show();
+            });
+        });
+        
+        // Load initial inventory data
+        KarisAntikvariat.Admin.loadInventoryItems(KarisAntikvariat.mockItems);
+        
+        // Make rows clickable after initial load
+        makeRowsClickable();
+        
+        // Set up event handlers for search
+        $('#search-btn').click(searchInventoryItems);
+        
+        // Handle Enter key press in search field
+        $('#search-term').keypress(function(e) {
+            if (e.which === 13) {
+                searchInventoryItems();
+            }
+        });
+    }
+    
+    // Make rows clickable in the inventory table
+    function makeRowsClickable() {
+        // Remove existing event handlers to prevent duplicates
+        $('#inventory-body tr').off('click');
+        
+        // Add click event to inventory rows
+        $('#inventory-body tr').click(function() {
+            const itemId = $(this).find('td:first').text(); // Get ID from first column
+            window.location.href = 'item-admin.html?id=' + itemId;
+        });
+        
+        // Add hover class for visual feedback
+        $('#inventory-body tr').addClass('clickable-row');
+        
+        // Apply cursor style directly to ensure it appears
+        $('#inventory-body tr').css('cursor', 'pointer');
+    }
+    
+    // Search items in inventory
+    function searchInventoryItems() {
+        const searchTerm = $('#search-term').val().toLowerCase();
+        const categoryFilter = $('#category-filter').val();
+        
+        // Get all items
+        let items = [];
+        
+        // Check if mockItems is available
+        if (window.KarisAntikvariat && window.KarisAntikvariat.mockItems) {
+            items = window.KarisAntikvariat.mockItems;
+        } else {
+            console.warn("Mock items not available, using empty array");
+            return;
+        }
+        
+        // Filter items
+        const filteredItems = items.filter(item => {
+            const matchesSearch = !searchTerm || 
+                item.title.toLowerCase().includes(searchTerm) ||
+                (item.author && item.author.toLowerCase().includes(searchTerm)) ||
+                item.id.toString().includes(searchTerm);
+            
+            const matchesCategory = categoryFilter === 'any' || !categoryFilter || 
+                (item.category && item.category.toLowerCase().includes(categoryFilter.toLowerCase())) ||
+                (item.shelf && item.shelf.toLowerCase().includes(categoryFilter.toLowerCase()));
+            
+            return matchesSearch && matchesCategory;
+        });
+        
+        // Load filtered items into table
+        KarisAntikvariat.Admin.loadInventoryItems(filteredItems);
+        
+        // Make the newly loaded rows clickable
+        makeRowsClickable();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karis Antikvariat</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header will be loaded here -->
+    <div id="header-container"></div>
+
+    <!-- Hero Banner with Full Width Image -->
+    <div class="hero-container position-relative">
+        <img src="img/hero.webp" alt="Karis Antikvariat" class="hero-image w-100">
+        <div class="container">
+            <div class="hero-content position-absolute">
+                <div class="hero-text-container p-5 rounded text-center">
+                    <h1>Välkommen till Karis Antikvariat</h1>
+                    <p class="lead">Din lokala antikvariat med ett brett utbud av böcker, musik och samlarobjekt</p>
+                    <a href="#browse" class="btn btn-primary btn-lg mt-3">Bläddra i vårt sortiment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container my-4">
+        <!-- Homepage Content -->
+        <div id="homepage" class="mb-5">
+            <!-- About Section -->
+            <section id="about" class="my-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Om vår butik</h2>
+                        <p>Karis Antikvariat har ett mycket brett utbud av böcker, men vi har specialiserat oss på finlandssvenska författare, lokalhistoria och sjöfart.</p>
+                        <p>Vi har dessutom barn- och ungdomsböcker, serietidningar, seriealbum, DVD-filmer, CD- och vinylskivor samt samlarobjekt.</p>
+                        <p>Välkommen att besöka oss och upptäck vårt unika utbud!</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- Image Carousel -->
+                        <div id="storeCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#storeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#storeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#storeCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                <button type="button" data-bs-target="#storeCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                            </div>
+                            <div class="carousel-inner rounded">
+                                <div class="carousel-item active">
+                                    <img src="img/bild1.webp" class="d-block w-100" alt="Karis Antikvariat butiksbild 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="img/bild2.webp" class="d-block w-100" alt="Karis Antikvariat butiksbild 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="img/bild3.webp" class="d-block w-100" alt="Karis Antikvariat butiksbild 3">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="img/bild4.webp" class="d-block w-100" alt="Karis Antikvariat butiksbild 4">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#storeCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Föregående</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#storeCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Nästa</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Browse Section -->
+            <section id="browse" class="my-5">
+                <h2 class="mb-4">Bläddra i vårt sortiment</h2>
+                
+                <div class="search-bar mb-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <input type="text" class="form-control" id="public-search" placeholder="Sök efter titel, författare eller kategori">
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <select class="form-select" id="public-category">
+                                <option value="all">Alla kategorier</option>
+                                <option value="bok">Böcker</option>
+                                <option value="finlandssvenska">Finlandssvenska författare</option>
+                                <option value="lokalhistoria">Lokalhistoria</option>
+                                <option value="sjöfart">Sjöfart</option>
+                                <option value="barn">Barn- och ungdomsböcker</option>
+                                <option value="cd">CD-skivor</option>
+                                <option value="vinyl">Vinylskivor</option>
+                                <option value="dvd">DVD-filmer</option>
+                                <option value="serier">Serier</option>
+                                <option value="samlar">Samlarobjekt</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100" id="public-search-btn">Sök</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="public-inventory-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Titel</th>
+                                <th>Författare/Artist</th>
+                                <th>Kategori</th>
+                                <th>Genre</th>
+                                <th>Skick</th>
+                                <th>Pris (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="public-inventory-body">
+                            <!-- Public inventory will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Featured Items -->
+            <section class="my-5">
+                <h2 class="mb-4">Utvalda objekt</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="featured-items">
+                    <!-- Featured items will be dynamically loaded by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-container"></div>
+
+   <!-- Bootstrap & jQuery JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Custom JS in proper order -->
+<script src="namespace.js"></script>
+<script src="core.js"></script>
+<script src="database.js"></script>
+<script src="mockItems.js"></script>
+
+<script src="auth.js"></script>
+<script src="public.js"></script>
+
+<script>
+    // Load header and footer
+    $(document).ready(function() {
+        // Load the public header
+        $("#header-container").load("header-public.html", function() {
+            // Activate current nav item
+            $("#nav-home").addClass("active");
+        });
+        
+        // Load the public footer
+        $("#footer-container").load("footer-public.html");
+        
+        // Wait a short time to ensure all scripts are loaded
+        setTimeout(function() {
+            // Load featured items
+            loadFeaturedItems();
+            
+            // Load browse table
+            loadPublicInventory();
+            
+            // Set up search button click handler
+            $('#public-search-btn').click(function() {
+                searchPublicInventory();
+            });
+            
+            // Set up enter key functionality on search field
+            $('#public-search').keypress(function(event) {
+                if (event.which === 13) { // Enter key
+                    searchPublicInventory();
+                }
+            });
+        }, 100);
+    });
+    
+
+// Function to load featured items
+function loadFeaturedItems() {
+    const featuredItemsContainer = $('#featured-items');
+    
+    if (!featuredItemsContainer.length) {
+        return; // Exit if container doesn't exist
+    }
+    
+    // Ensure single row with 3 columns
+    featuredItemsContainer.removeClass('row-cols-1 row-cols-md-2 row-cols-lg-4')
+                           .addClass('row-cols-3');
+    
+    // Get featured items
+    let featuredItems = [];
+    
+    // Check if mockItems is available
+    if (window.KarisAntikvariat && window.KarisAntikvariat.mockItems) {
+        // Filter for available items
+        const availableItems = window.KarisAntikvariat.mockItems.filter(item => item.status === "Tillgänglig");
+        
+        // Try to get a mix of different item types
+        const categories = ["Bok", "CD", "Vinyl", "Serier"];
+        
+        // Select items to feature
+        categories.forEach(category => {
+            const categoryItems = availableItems.filter(item => 
+                item.category.toLowerCase().includes(category.toLowerCase())
+            );
+            
+            if (categoryItems.length > 0) {
+                featuredItems.push(categoryItems[Math.floor(Math.random() * categoryItems.length)]);
+            }
+        });
+        
+        // Fill remaining slots with random items
+        while (featuredItems.length < 3 && availableItems.length > featuredItems.length) {
+            const randomIndex = Math.floor(Math.random() * availableItems.length);
+            const randomItem = availableItems[randomIndex];
+            
+            // Check if this item is already included
+            if (!featuredItems.some(item => item.id === randomItem.id)) {
+                featuredItems.push(randomItem);
+            }
+        }
+    } else {
+        console.warn("Mock items not available, using empty array");
+    }
+    
+    // Clear the container
+    featuredItemsContainer.empty();
+    
+    if (featuredItems.length === 0) {
+        featuredItemsContainer.html('<p class="text-muted">Inga objekt hittades.</p>');
+        return;
+    }
+    
+    // Render exactly 3 items
+    featuredItems.slice(0, 3).forEach(item => {
+        // Determine the correct image based on the category
+        let imageSrc = "img/src-book.webp"; // Default image
+        
+        if (item.category.toLowerCase().includes("bok")) {
+            imageSrc = "img/src-book.webp";
+        } else if (item.category.toLowerCase().includes("cd")) {
+            imageSrc = "img/src-cd.webp";
+        } else if (item.category.toLowerCase().includes("vinyl")) {
+            imageSrc = "img/src-music.webp";
+        } else if (item.category.toLowerCase().includes("serier")) {
+            imageSrc = "img/src-magazine.webp";
+        }
+        
+        // Format price
+        const price = '€' + parseFloat(item.price).toFixed(2);
+        
+        // Create the HTML for this item
+        const itemHtml = `
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0 h-100">
+                        <div class="col-4">
+                            <img src="${imageSrc}" class="card-img-top h-100 object-fit-cover" alt="${item.title}">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body d-flex flex-column h-100">
+                                <h5 class="card-title">${item.title}</h5>
+                                <p class="card-text text-muted flex-grow-1">${item.author}</p>
+                                <p class="text-success fw-bold mb-2">${price}</p>
+                                <a href="item.html?id=${item.id}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Add it to the container
+        featuredItemsContainer.append(itemHtml);
+    });
+}
+    
+
+// Function to load public inventory - modified to show just 5 items
+function loadPublicInventory() {
+    const $tbody = $('#public-inventory-body');
+    
+    if (!$tbody.length) {
+        return; // Exit if container doesn't exist
+    }
+    
+    // Clear table
+    $tbody.empty();
+    
+    // Get items
+    let items = [];
+    
+    // Check if mockItems is available
+    if (window.KarisAntikvariat && window.KarisAntikvariat.mockItems) {
+        // Filter for available items and take only 5
+        items = window.KarisAntikvariat.mockItems
+            .filter(item => item.status === "Tillgänglig")
+            .slice(0, 5); // Take only the first 5 items
+    } else {
+        console.warn("Mock items not available, using empty array");
+    }
+    
+    if (items.length === 0) {
+        $tbody.html('<tr><td colspan="6" class="text-center text-muted py-3">Inga objekt hittades.</td></tr>');
+        return;
+    }
+    
+    // Render each item
+    items.forEach(item => {
+        // Handle condition which can be either string or object
+        let condition = item.condition;
+        if (typeof condition === 'object') {
+            condition = condition.name;
+        }
+        
+        // Format price
+        const price = '€' + parseFloat(item.price).toFixed(2);
+        
+        const row = `
+            <tr class="clickable-row" data-href="item.html?id=${item.id}">
+                <td>${item.title}</td>
+                <td>${item.author}</td>
+                <td>${item.category}${item.shelf ? ' - ' + item.shelf : ''}</td>
+                <td>${item.genre || '-'}</td>
+                <td>${condition}</td>
+                <td>${price}</td>
+            </tr>
+        `;
+        $tbody.append(row);
+    });
+    
+    // Make rows clickable
+    $('.clickable-row').click(function() {
+        window.location = $(this).data('href');
+    });
+}
+    
+    // Function to search public inventory
+    function searchPublicInventory() {
+        const searchTerm = $('#public-search').val().toLowerCase();
+        const categoryFilter = $('#public-category').val();
+        
+        // Get items
+        let items = [];
+        
+        // Check if mockItems is available
+        if (window.KarisAntikvariat && window.KarisAntikvariat.mockItems) {
+            items = window.KarisAntikvariat.mockItems.filter(item => item.status === "Tillgänglig");
+        } else {
+            console.warn("Mock items not available, using empty array");
+            return;
+        }
+        
+        // Filter items
+        const filteredItems = items.filter(item => {
+            const matchesSearch = !searchTerm || 
+                item.title.toLowerCase().includes(searchTerm) ||
+                item.author.toLowerCase().includes(searchTerm) ||
+                (item.genre && item.genre.toLowerCase().includes(searchTerm));
+            
+            const matchesCategory = categoryFilter === 'all' || !categoryFilter || 
+                item.category.toLowerCase().includes(categoryFilter.toLowerCase()) ||
+                (item.shelf && item.shelf.toLowerCase().includes(categoryFilter.toLowerCase()));
+            
+            return matchesSearch && matchesCategory;
+        });
+        
+        // Re-render table with filtered items
+        const $tbody = $('#public-inventory-body');
+        $tbody.empty();
+        
+        if (filteredItems.length === 0) {
+            $tbody.html('<tr><td colspan="6" class="text-center text-muted py-3">Inga objekt hittades. Prova en annan sökterm eller kategori.</td></tr>');
+            return;
+        }
+        
+        // Render each filtered item
+        filteredItems.forEach(item => {
+            // Handle condition which can be either string or object
+            let condition = item.condition;
+            if (typeof condition === 'object') {
+                condition = condition.name;
+            }
+            
+            // Format price
+            const price = '€' + parseFloat(item.price).toFixed(2);
+            
+            const row = `
+                <tr class="clickable-row" data-href="item.html?id=${item.id}">
+                    <td>${item.title}</td>
+                    <td>${item.author}</td>
+                    <td>${item.category}${item.shelf ? ' - ' + item.shelf : ''}</td>
+                    <td>${item.genre || '-'}</td>
+                    <td>${condition}</td>
+                    <td>${price}</td>
+                </tr>
+            `;
+            $tbody.append(row);
+        });
+        
+        // Make rows clickable
+        $('.clickable-row').click(function() {
+            window.location = $(this).data('href');
+        });
+    }
+</script>
+</body>
+</html>
