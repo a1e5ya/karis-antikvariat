@@ -174,12 +174,11 @@ section h2 {
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.15);
 }
 
 .card .card-img-top {
@@ -356,6 +355,11 @@ section h2 {
 .related-items {
     border-top: 1px solid var(--border-color);
     padding-top: 1.5rem;
+}
+
+#card-controls {
+    display: flex;
+    justify-content: space-between;
 }
 
 /* Admin Panel Specific */

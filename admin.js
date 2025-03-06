@@ -6,13 +6,6 @@ KarisAntikvariat.Admin = {
     authenticated: false,
     currentUser: null,
     
-    // Cache for database reference items
-    categories: [],
-    shelves: [],
-    genres: [],
-    conditions: [],
-    statusTypes: [],
-
     // Initialize admin interface
     init: function() {
         // Initialize tabs
@@ -21,8 +14,8 @@ KarisAntikvariat.Admin = {
         // Set up event handlers
         this.setupEventHandlers();
         
-        // Load database references
-        this.loadDatabaseReferences();
+        // Load database references using DatabaseManager
+        KarisAntikvariat.DatabaseManager.loadDatabaseReferences();
         
         // Initial load of inventory items
         this.loadInventoryItems(KarisAntikvariat.mockItems);
@@ -68,33 +61,6 @@ KarisAntikvariat.Admin = {
         
         // Print List Button
         $('#print-list-btn').click(this.handlePrintList.bind(this));
-        
-        // Load Reference Data
-        $('#categories-list, #shelves-list, #genres-list, #conditions-list').on('click', '.edit-btn', function() {
-            const id = $(this).data('id');
-            const type = $(this).data('type');
-            self.editDatabaseItem(type, id);
-        }).on('click', '.delete-btn', function() {
-            const id = $(this).data('id');  
-            const type = $(this).data('type');
-            self.deleteDatabaseItem(type, id);
-        });
-        
-        $('#add-category-btn').click(function() {
-            self.addDatabaseItem('category');  
-        });
-        
-        $('#add-shelf-btn').click(function() {
-            self.addDatabaseItem('shelf');
-        });
-        
-        $('#add-genre-btn').click(function() {
-            self.addDatabaseItem('genre');
-        });
-        
-        $('#add-condition-btn').click(function() {
-           self.addDatabaseItem('condition'); 
-        });
     },
 
     // Load inventory items into table
@@ -119,7 +85,7 @@ KarisAntikvariat.Admin = {
                     <td>${item.author || '-'}</td>
                     <td>${item.category}${item.shelf ? ' - ' + item.shelf : ''}</td>
                     <td>${item.shelf || '-'}</td>
-                    <td>${KarisAntikvariat.Core.formatCurrency(item.price)}</td>
+                    <td>${KarisAntikvariat.Utils.formatPrice(item.price)}</td>
                     <td><span class="status-badge ${statusClass}">${item.status}</span></td>
                     <td>
                         <div class="btn-group btn-group-sm">
@@ -176,7 +142,7 @@ KarisAntikvariat.Admin = {
                     <td>${item.title}</td>
                     <td>${item.author || '-'}</td>
                     <td>${item.category}${item.shelf ? ' - ' + item.shelf : ''}</td>
-                    <td>${KarisAntikvariat.Core.formatCurrency(item.price)}</td>  
+                    <td>${KarisAntikvariat.Utils.formatPrice(item.price)}</td>  
                     <td>${KarisAntikvariat.Core.parseDate(item.date)}</td>
                     <td>
                         <div class="btn-group btn-group-sm">
@@ -190,134 +156,37 @@ KarisAntikvariat.Admin = {
         });
     },
     
-    // Load database references
-    loadDatabaseReferences: function() {
-        this.categories = KarisAntikvariat.Categories || [];
-        this.shelves = KarisAntikvariat.Shelves || [];  
-        this.genres = KarisAntikvariat.Genres || [];
-        this.conditions = KarisAntikvariat.Conditions || [];
-        this.statusTypes = KarisAntikvariat.StatusTypes || [];
+    // Search inventory items
+    searchItems: function() {
+        const searchTerm = $('#search-term').val().toLowerCase();
+        const categoryFilter = $('#category-filter').val();
         
-        this.loadCategories();
-        this.loadShelves();
-        this.loadGenres(); 
-        this.loadConditions();
-    },
-       
-    // Load categories into reference table 
-    loadCategories: function() {
-        const $tbody = $('#categories-list');
-        $tbody.empty();
-        
-        this.categories.forEach(category => {
-            const row = `
-                <tr>
-                    <td>${category.id}</td>
-                    <td>${category.name}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${category.id}" data-type="category">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${category.id}" data-type="category">Ta bort</button>
-                    </td>
-                </tr>
-            `;
-            $tbody.append(row);
+        // Filter items
+        const filteredItems = KarisAntikvariat.mockItems.filter(item => {
+            const matchesSearch = !searchTerm || 
+                item.title.toLowerCase().includes(searchTerm) ||
+                (item.author && item.author.toLowerCase().includes(searchTerm)) ||
+                item.id.toString().includes(searchTerm);
+            
+            const matchesCategory = categoryFilter === 'any' || !categoryFilter || 
+                item.category.toLowerCase().includes(categoryFilter.toLowerCase()) ||
+                (item.shelf && item.shelf.toLowerCase().includes(categoryFilter.toLowerCase()));
+            
+            return matchesSearch && matchesCategory;
         });
+        
+        // Update the UI
+        this.loadInventoryItems(filteredItems);
     },
     
-    // Load shelves into reference table
-    loadShelves: function() {  
-        const $tbody = $('#shelves-list');
-        $tbody.empty();
-        
-        this.shelves.forEach(shelf => {
-            const row = `
-                <tr>  
-                    <td>${shelf.id}</td>
-                    <td>${shelf.name}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${shelf.id}" data-type="shelf">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${shelf.id}" data-type="shelf">Ta bort</button>  
-                    </td>
-                </tr>
-            `;
-            $tbody.append(row);
-        });
+    // Clear the Add Item form
+    clearAddItemForm: function() {
+        $("#add-item-form")[0].reset();
+        $("#new-item-image").attr("src", "img/src-book.webp");
     },
     
-    // Load genres into reference table
-    loadGenres: function() {
-        const $tbody = $('#genres-list');  
-        $tbody.empty();
-        
-        this.genres.forEach(genre => {
-            const row = ` 
-                <tr>
-                    <td>${genre.id}</td>
-                    <td>${genre.name}</td>  
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${genre.id}" data-type="genre">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${genre.id}" data-type="genre">Ta bort</button>
-                    </td>
-                </tr>
-            `;
-            $tbody.append(row);  
-        });
-    },
-    
-    // Load conditions into reference table
-    loadConditions: function() {
-        const $tbody = $('#conditions-list');
-        $tbody.empty();  
-
-        this.conditions.forEach(condition => {
-            const row = `
-                <tr>  
-                    <td>${condition.id}</td>
-                    <td>${condition.name} (${condition.code})</td>
-                    <td>  
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${condition.id}" data-type="condition">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${condition.id}" data-type="condition">Ta bort</button>
-                    </td>
-                </tr>  
-            `;
-            $tbody.append(row);
-        }); 
-    },
-
-    // ...rest of admin functions remain...
-};
-
-
-// Function to update the image preview based on selected category
-function updateNewItemImagePreview() {
-    const category = $("#item-category").val();
-    if (category) {
-        let imageSrc = "img/src-book.webp"; // Default image
-        
-        // Determine image based on category
-        if (category.toLowerCase().includes("bok")) {
-            imageSrc = "img/src-book.webp";
-        } else if (category.toLowerCase().includes("cd")) {
-            imageSrc = "img/src-cd.webp";
-        } else if (category.toLowerCase().includes("vinyl")) {
-            imageSrc = "img/src-music.webp";
-        } else if (category.toLowerCase().includes("serier")) {
-            imageSrc = "img/src-magazine.webp";
-        } else if (category.toLowerCase().includes("dvd")) {
-            imageSrc = "img/src-cd.webp";
-        }
-        
-        $("#new-item-image").attr("src", imageSrc);
-    }
-}
-
-// Enhanced submit handler for the add item form
-function enhanceAddItemForm() {
-    // Update image preview when category changes
-    $("#item-category").change(updateNewItemImagePreview);
-    
-    // Handle form submission
-    $("#add-item-form").submit(function(e) {
+    // Add a new item
+    addNewItem: function(e) {
         e.preventDefault();
         
         // Collect form data
@@ -326,7 +195,7 @@ function enhanceAddItemForm() {
             status: $("#item-status").val(),
             authorFirstName: $("#author-first").val(),
             authorLastName: $("#author-last").val(),
-            author: combineAuthorName($("#author-first").val(), $("#author-last").val()),
+            author: this.combineAuthorName($("#author-first").val(), $("#author-last").val()),
             category: $("#item-category").val(),
             genre: $("#item-genre").val() || "",
             price: parseFloat($("#item-price").val()) || 0,
@@ -382,7 +251,7 @@ function enhanceAddItemForm() {
         alert(`Objekt '${newItem.title}' har lagts till i lagret med ID ${newId}`);
         
         // Clear the form
-        clearAddItemForm();
+        this.clearAddItemForm();
         
         // Switch to search tab and show the newly added item
         const searchTab = document.querySelector('#search-tab');
@@ -390,44 +259,213 @@ function enhanceAddItemForm() {
         
         // Update search term to show the new item
         $("#search-term").val(newItem.title);
-        KarisAntikvariat.Admin.searchItems();
-    });
+        this.searchItems();
+    },
+    
+    // Combine author first and last name
+    combineAuthorName: function(firstName, lastName) {
+        firstName = (firstName || "").trim();
+        lastName = (lastName || "").trim();
+        
+        if (firstName && lastName) {
+            return firstName + " " + lastName;
+        } else if (firstName) {
+            return firstName;
+        } else if (lastName) {
+            return lastName;
+        }
+        return "";
+    },
+    
+    // Edit an existing item
+    editItem: function(itemId) {
+        window.location.href = `item-admin.html?id=${itemId}`;
+    },
+    
+    // Mark an item as sold
+    sellItem: function(itemId) {
+        const item = KarisAntikvariat.mockItems.find(item => item.id === parseInt(itemId));
+        if (!item) {
+            alert('Objektet hittades inte');
+            return;
+        }
+        
+        if (item.status !== 'Tillgänglig') {
+            alert('Objektet är inte tillgängligt för försäljning');
+            return;
+        }
+        
+        if (confirm(`Är du säker på att du vill markera "${item.title}" som såld?`)) {
+            item.status = 'Såld';
+            
+            // Reload the inventory table
+            this.searchItems();
+            
+            // Show confirmation
+            alert(`Objekt "${item.title}" har markerats som såld.`);
+        }
+    },
+    
+    // Delete an item
+    deleteItem: function(itemId) {
+        const index = KarisAntikvariat.mockItems.findIndex(item => item.id === parseInt(itemId));
+        if (index === -1) {
+            alert('Objektet hittades inte');
+            return;
+        }
+        
+        const item = KarisAntikvariat.mockItems[index];
+        
+        if (confirm(`Är du säker på att du vill ta bort "${item.title}" från lagret?`)) {
+            // Remove the item
+            KarisAntikvariat.mockItems.splice(index, 1);
+            
+            // Reload the inventory table
+            this.searchItems();
+            
+            // Show confirmation
+            alert(`Objekt "${item.title}" har tagits bort från lagret.`);
+        }
+    },
+    
+    // View an item
+    viewItem: function(itemId) {
+        window.location.href = `item-admin.html?id=${itemId}`;
+    },
+    
+    // Toggle select all checkbox for lists
+    toggleSelectAll: function() {
+        const isChecked = $(this).prop('checked');
+        $('input[name="list-item"]').prop('checked', isChecked);
+    },
+    
+    // Handle print list button
+    handlePrintList: function() {
+        const selectedIds = [];
+        $('input[name="list-item"]:checked').each(function() {
+            selectedIds.push($(this).val());
+        });
+        
+        if (selectedIds.length === 0) {
+            alert('Välj minst ett objekt att skriva ut');
+            return;
+        }
+        
+        // Get selected items
+        const selectedItems = KarisAntikvariat.mockItems.filter(item => 
+            selectedIds.includes(item.id.toString())
+        );
+        
+        // Open print window
+        this.printList(selectedItems);
+    },
+    
+    // Print a list of items
+    printList: function(items) {
+        // Create print content
+        let content = `
+            <html>
+            <head>
+                <title>Lagerlista - Karis Antikvariat</title>
+                <style>
+                    body { font-family: Arial, sans-serif; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    th { background-color: #f2f2f2; }
+                    h1 { color: #2e8b57; }
+                    .print-date { text-align: right; margin-bottom: 20px; }
+                </style>
+            </head>
+            <body>
+                <h1>Lagerlista - Karis Antikvariat</h1>
+                <div class="print-date">Utskriven: ${new Date().toLocaleDateString('sv-SE')}</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titel</th>
+                            <th>Författare</th>
+                            <th>Kategori</th>
+                            <th>Hylla</th>
+                            <th>Pris</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        items.forEach(item => {
+            content += `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.title}</td>
+                    <td>${item.author || '-'}</td>
+                    <td>${item.category}</td>
+                    <td>${item.shelf || '-'}</td>
+                    <td>${KarisAntikvariat.Utils.formatPrice(item.price)}</td>
+                    <td>${item.status}</td>
+                </tr>
+            `;
+        });
+        
+        content += `
+                    </tbody>
+                </table>
+                <script>
+                    window.onload = function() {
+                        window.print();
+                    }
+                </script>
+            </body>
+            </html>
+        `;
+        
+        // Open print window
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(content);
+        printWindow.document.close();
+    }
+};
+
+// Function to update the image preview based on selected category
+function updateNewItemImagePreview() {
+    const category = $("#item-category").val();
+    if (category) {
+        let imageSrc = "img/src-book.webp"; // Default image
+        
+        // Determine image based on category
+        if (category.toLowerCase().includes("bok")) {
+            imageSrc = "img/src-book.webp";
+        } else if (category.toLowerCase().includes("cd")) {
+            imageSrc = "img/src-cd.webp";
+        } else if (category.toLowerCase().includes("vinyl")) {
+            imageSrc = "img/src-music.webp";
+        } else if (category.toLowerCase().includes("serier")) {
+            imageSrc = "img/src-magazine.webp";
+        } else if (category.toLowerCase().includes("dvd")) {
+            imageSrc = "img/src-cd.webp";
+        }
+        
+        $("#new-item-image").attr("src", imageSrc);
+    }
+}
+
+// Enhanced submit handler for the add item form
+function enhanceAddItemForm() {
+    // Update image preview when category changes
+    $("#item-category").change(updateNewItemImagePreview);
     
     // Handle clear form button
     $("#clear-form-btn").click(function() {
-        clearAddItemForm();
+        KarisAntikvariat.Admin.clearAddItemForm();
     });
     
     // Initialize with default image
     updateNewItemImagePreview();
 }
 
-// Helper function to combine author first and last name
-function combineAuthorName(firstName, lastName) {
-    firstName = (firstName || "").trim();
-    lastName = (lastName || "").trim();
-    
-    if (firstName && lastName) {
-        return firstName + " " + lastName;
-    } else if (firstName) {
-        return firstName;
-    } else if (lastName) {
-        return lastName;
-    }
-    return "";
-}
-
-// Function to clear the add item form
-function clearAddItemForm() {
-    $("#add-item-form")[0].reset();
-    $("#new-item-image").attr("src", "img/src-book.webp");
-}
-
-
-
-// Initialize when DOM is ready  
+// Initialize when DOM is ready
 $(document).ready(function() {
-    KarisAntikvariat.Admin.init();  
+    KarisAntikvariat.Admin.init();
     enhanceAddItemForm();
 });
-

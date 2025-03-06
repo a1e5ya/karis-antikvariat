@@ -1,87 +1,102 @@
-1. Authentication Module (auth.js)
+1. Core Utilities (core.js)
 
-isAuthenticated(): Check if user is authenticated via session storage
-showLoginModal(): Display login dialog with form reset
-showWelcomeMessage(): Display welcome message after successful login
-login(username, password): Authenticate user credentials and store session
-logout(): End user session, clear storage, and redirect to homepage
-handleForgotPassword(): Process password reset requests via email
+validateItemForm(formData): Validates form data for item forms
+sanitizeInput(input): Cleans user input to prevent XSS attacks
+performAdvancedSearch(items, searchParams): Searches across multiple fields with filters
+filterItemsByCategory(items, category): Filters items by specific category
+filterItemsByPrice(items, minPrice, maxPrice): Filters items by price range
+sortItems(items, sortBy, ascending): Sorts items based on various criteria
+exportToCSV(items, fields): Exports inventory data to CSV format
+generateInventoryReport(items): Creates comprehensive inventory statistics
+formatCurrency(amount, currencySymbol): Formats prices with currency symbol
+parseDate(dateString, format): Formats dates consistently
+generateUniqueId(existingItems): Creates new unique IDs for items
+fetchItems(params): Retrieves items with filtering, sorting, and pagination
+debounce(func, wait): Limits function call frequency for performance
 
-2. Core Utilities (core.js)
+2. Database Management (database.js)
 
-validateItemForm(formData): Validate all input fields for item forms
-sanitizeInput(input): Clean user input to prevent XSS attacks
-performAdvancedSearch(items, searchParams): Search across multiple fields with filters
-filterItemsByCategory(items, category): Filter items by specific category
-filterItemsByPrice(items, minPrice, maxPrice): Filter items by price range
-sortItems(items, sortBy, ascending): Sort items based on various criteria
-exportToCSV(items, fields): Export inventory data to CSV format
-generateInventoryReport(items): Create comprehensive inventory statistics
-formatCurrency(amount, currencySymbol): Format prices consistently with currency symbol
-parseDate(dateString, format): Format dates consistently in different formats
-generateUniqueId(existingItems): Create new unique IDs for items
-fetchItems(params): Retrieve items with filtering, sorting, and pagination
-debounce(func, wait): Limit function call frequency for performance
+loadDatabaseReferences(): Loads all reference data
+setupDatabaseEvents(): Sets up event handlers for database management
+loadCategories(): Populates category management table
+loadShelves(): Populates shelf management table
+loadGenres(): Populates genre management table
+loadConditions(): Populates condition management table
+addDatabaseItem(type): Adds new reference item (category, shelf, etc.)
+editDatabaseItem(type, id): Edits existing reference item
+deleteDatabaseItem(type, id): Deletes reference item with usage check
+updateDropdowns(type): Updates all dropdown menus related to a type
+updateCategoryDropdowns(): Updates category dropdown menus
+updateShelfDropdowns(): Updates shelf location dropdown menus
+updateGenreDropdowns(): Updates genre dropdown menus
+updateConditionDropdowns(): Updates condition dropdown menus
+getTypeName(type): Returns Swedish name for a database type
+findByName(collection, name): Generic lookup function
+getCategoryByName(name), getShelfByName(name), etc.: Specific lookup functions
+formatPrice(price): Formats price with Euro symbol
+formatDate(dateString): Formats date according to locale
 
-3. Admin Interface (admin.js)
+3. Authentication Module (auth.js)
 
-init(): Initialize admin interface and load required components
-initializeTabs(): Set up Bootstrap tab navigation
-setupEventHandlers(): Configure all event listeners for admin interface
-loadInventoryItems(items): Display items in inventory table with actions
-loadListsItems(items): Display items in lists table with selection options
-searchItems(): Filter inventory based on search criteria and category
-clearAddItemForm(): Reset the add item form
-addNewItem(): Validate and add new item to inventory
-editItem(id): Navigate to item edit page
-sellItem(id): Mark item as sold and update inventory
-deleteItem(id): Remove item from inventory with confirmation
-viewItem(id): Navigate to item details page
-handlePrintList(): Prepare selected items for printing
-loadDatabaseReferences(): Load categories, shelves, genres, and conditions
-loadCategories(): Populate category management table
-loadShelves(): Populate shelf management table
-loadGenres(): Populate genre management table
-loadConditions(): Populate condition management table
-addDatabaseItem(type): Add new reference item (category, shelf, etc.)
-editDatabaseItem(type, id): Edit existing reference item
-deleteDatabaseItem(type, id): Delete reference item with usage check
-updateCategoryDropdowns(): Update category dropdown menus
-updateShelfDropdowns(): Update shelf location dropdown menus
-updateGenreDropdowns(): Update genre dropdown menus
-updateConditionDropdowns(): Update condition dropdown menus
+isAuthenticated(): Checks if user is authenticated via session storage
+showLoginModal(): Displays login dialog with form reset
+showWelcomeMessage(): Displays welcome message after successful login
+Event handlers for login, logout, and password reset functionality
 
-4. Public Interface (public.js)
+4. Admin Interface (admin.js)
 
-init(): Initialize public interface components
-getText(key): Get translated string based on current language
-switchLanguage(lang): Change interface language and update UI
-updateInterfaceLanguage(): Update all UI text based on selected language
-loadItemDetails(itemId): Show detailed information for a specific item
-loadRelatedItems(currentItem): Display related items based on category/author
-initNewsletterForm(): Handle newsletter subscription form submissions
-initLanguageSwitcher(): Set up language switching functionality
-getCategoryImage(category): Get appropriate image based on item category
-formatPrice(price): Format price with Euro symbol
-formatDate(dateString): Format date according to locale
-getUrlParameter(name): Extract parameters from URL
-initSmoothScrolling(): Enable smooth scrolling for anchor links
+init(): Initializes admin interface and loads required components
+initializeTabs(): Sets up Bootstrap tab navigation
+setupEventHandlers(): Configures all event listeners for admin interface
+loadInventoryItems(items): Displays items in inventory table with actions
+loadListsItems(items): Displays items in lists table with selection options
+searchItems(): Filters inventory based on search criteria and category
+clearAddItemForm(): Resets the add item form
+addNewItem(): Validates and adds new item to inventory
+combineAuthorName(firstName, lastName): Combines author first and last name
+editItem(id): Navigates to item edit page
+sellItem(id): Marks item as sold and updates inventory
+deleteItem(id): Removes item from inventory with confirmation
+viewItem(id): Navigates to item details page
+toggleSelectAll(): Toggles select all checkbox for lists
+handlePrintList(): Prepares selected items for printing
+printList(items): Opens a new window with printable list
+updateNewItemImagePreview(): Updates image preview based on category
+enhanceAddItemForm(): Sets up additional form behavior
 
-5. Item Management (item.html, item-admin.html)
+5. Public Interface (public.js)
 
-loadItemDetailsAdmin(itemId): Load item details for admin editing
-updateImagePreview(): Update item image based on selected category
-saveItemChanges(): Save edits to item details
-confirmDeleteItem(): Confirm and process item deletion
+init(): Initializes public interface components
+getText(key): Gets translated string based on current language
+switchLanguage(lang): Changes interface language and updates UI
+updateInterfaceLanguage(): Updates UI text based on selected language
+loadItemDetails(itemId): Shows detailed information for a specific item
+loadRelatedItems(currentItem): Displays related items based on category/author
+initNewsletterForm(): Handles newsletter subscription form submissions
+initLanguageSwitcher(): Sets up language switching functionality
+getCategoryImage(category): Gets appropriate image based on item category
+formatPrice(price): Formats price with Euro symbol
+formatDate(dateString): Formats date according to locale
+getUrlParameter(name): Extracts parameters from URL
+initSmoothScrolling(): Enables smooth scrolling for anchor links
 
-6. Homepage Functions (index.html)
+6. Item Page Functions (item.html, item-admin.html)
 
-loadFeaturedItems(): Display featured items on homepage
-loadPublicInventory(): Display available items in public inventory table
-searchPublicInventory(): Filter public inventory based on search criteria
-loadHeaderAndFooter(): Dynamically load page header and footer components
+loadItemDetails(itemId): Loads item details for public view
+loadItemDetailsAdmin(itemId): Loads item details for admin editing
+updateImagePreview(): Updates item image based on selected category
+saveItemChanges(): Saves edits to item details
+confirmDeleteItem(): Confirms and processes item deletion
+getCategoryImage(category): Gets appropriate image for category
 
-7. Inventory Page Functions (inventory.html)
+7. Homepage Functions (index.html)
 
-initInventorySystem(): Initialize inventory management system
-setupEventHandlers(): Set up event handlers for inventory page
+loadFeaturedItems(): Displays featured items on homepage
+loadPublicInventory(): Displays available items in public inventory table
+searchPublicInventory(): Filters public inventory based on search criteria
+
+8. Inventory Page Functions (inventory.html)
+
+initInventorySystem(): Initializes inventory management system
+makeRowsClickable(): Makes table rows clickable
+searchInventoryItems(): Searches and filters inventory items

@@ -23,9 +23,7 @@
                 <a href="inventory.html" class="btn btn-outline-secondary me-2">
                     <i class="fas fa-arrow-left me-1"></i> Tillbaka till lagerhantering
                 </a>
-                <button class="btn btn-primary" id="save-item-btn">
-                    <i class="fas fa-save me-1"></i> Spara ändringar
-                </button>
+
             </div>
         </div>
 
@@ -171,12 +169,13 @@
                                 </div>
                             </div>
 
-                            <div class="card mb-3 border-danger">
-                                <div class="card-body">
-                                    <h5 class="card-title text-danger">Farlig zon</h5>
-                                    <p class="card-text">Följande åtgärder kan inte ångras.</p>
+                            <div class="card mb-3">
+                                <div class="card-body" id="card-controls">
                                     <button type="button" class="btn btn-outline-danger" id="delete-item-btn">
                                         <i class="fas fa-trash-alt me-1"></i> Ta bort objekt
+                                    </button>
+                                    <button class="btn btn-primary" id="save-item-btn">
+                                        <i class="fas fa-save me-1"></i> Spara ändringar
                                     </button>
                                 </div>
                             </div>
