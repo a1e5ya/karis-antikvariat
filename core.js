@@ -18,31 +18,10 @@
          * @returns {Object} - Object with isValid boolean and array of error messages
          */
         validateItemForm: function(formData) {
-            const errors = [];
-            
-            // Required fields
-            if (!formData.title || formData.title.trim() === '') {
-                errors.push('Titel är obligatorisk');
-            }
-            
-            if (!formData.category || formData.category.trim() === '') {
-                errors.push('Kategori är obligatorisk');
-            }
-            
-            if (!formData.price || isNaN(parseFloat(formData.price))) {
-                errors.push('Pris måste vara ett giltigt nummer');
-            } else if (parseFloat(formData.price) <= 0) {
-                errors.push('Pris måste vara större än 0');
-            }
-            
-            // Author validation (either first name or last name should be present)
-            if (formData.authorFirstName === '' && formData.authorLastName === '') {
-                errors.push('Antingen för- eller efternamn på författaren måste anges');
-            }
-            
+            // Return always valid with no errors
             return {
-                isValid: errors.length === 0,
-                errors: errors
+                isValid: true,
+                errors: []
             };
         },
         

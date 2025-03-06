@@ -3,6 +3,7 @@
  * This file contains mock inventory data for demonstration purposes
  */
 
+
 // Add items to the namespace without redeclaring it
 window.KarisAntikvariat = window.KarisAntikvariat || {};
 

@@ -50,12 +50,6 @@ KarisAntikvariat.Admin = {
             }
         });
         
-        // Clear Form Button
-        $('#clear-form-btn').click(this.clearAddItemForm.bind(this));
-        
-        // Add Item Form Submission
-        $('#add-item-form').submit(this.addNewItem.bind(this));
-        
         // Select All Checkbox
         $('#select-all').change(this.toggleSelectAll);
         
@@ -179,104 +173,6 @@ KarisAntikvariat.Admin = {
         this.loadInventoryItems(filteredItems);
     },
     
-    // Clear the Add Item form
-    clearAddItemForm: function() {
-        $("#add-item-form")[0].reset();
-        $("#new-item-image").attr("src", "img/src-book.webp");
-    },
-    
-    // Add a new item
-    addNewItem: function(e) {
-        e.preventDefault();
-        
-        // Collect form data
-        const formData = {
-            title: $("#item-title").val(),
-            status: $("#item-status").val(),
-            authorFirstName: $("#author-first").val(),
-            authorLastName: $("#author-last").val(),
-            author: this.combineAuthorName($("#author-first").val(), $("#author-last").val()),
-            category: $("#item-category").val(),
-            genre: $("#item-genre").val() || "",
-            price: parseFloat($("#item-price").val()) || 0,
-            condition: $("#item-condition").val() || "",
-            shelf: $("#item-shelf").val() || "",
-            language: $("#item-language").val() || "",
-            year: parseInt($("#item-year").val()) || null,
-            publisher: $("#item-publisher").val() || "",
-            notes: $("#item-notes").val() || "",
-            internalNotes: $("#item-internal-notes").val() || "",
-            specialPrice: $("#item-special-price").is(":checked"),
-            rare: $("#item-rare").is(":checked"),
-            date: new Date().toISOString().split('T')[0] // Today's date
-        };
-        
-        // Validate form data
-        const validation = KarisAntikvariat.Core.validateItemForm(formData);
-        
-        if (!validation.isValid) {
-            // Show validation errors
-            alert("Formuläret innehåller fel:\n" + validation.errors.join("\n"));
-            return;
-        }
-        
-        // Generate a unique ID for the new item
-        const newId = KarisAntikvariat.Core.generateUniqueId(KarisAntikvariat.mockItems);
-        
-        // Create the new item
-        const newItem = {
-            id: newId,
-            title: formData.title,
-            author: formData.author,
-            category: formData.category.split(' - ')[0], // Take only main category
-            shelf: formData.shelf || (formData.category.includes(' - ') ? formData.category.split(' - ')[1] : ""),
-            genre: formData.genre,
-            condition: formData.condition,
-            price: formData.price,
-            status: formData.status,
-            notes: formData.notes,
-            internalNotes: formData.internalNotes,
-            date: formData.date,
-            specialPrice: formData.specialPrice,
-            rare: formData.rare,
-            language: formData.language,
-            year: formData.year,
-            publisher: formData.publisher
-        };
-        
-        // Add the new item to the mockItems array
-        KarisAntikvariat.mockItems.push(newItem);
-        
-        // Show success message
-        alert(`Objekt '${newItem.title}' har lagts till i lagret med ID ${newId}`);
-        
-        // Clear the form
-        this.clearAddItemForm();
-        
-        // Switch to search tab and show the newly added item
-        const searchTab = document.querySelector('#search-tab');
-        bootstrap.Tab.getInstance(searchTab).show();
-        
-        // Update search term to show the new item
-        $("#search-term").val(newItem.title);
-        this.searchItems();
-    },
-    
-    // Combine author first and last name
-    combineAuthorName: function(firstName, lastName) {
-        firstName = (firstName || "").trim();
-        lastName = (lastName || "").trim();
-        
-        if (firstName && lastName) {
-            return firstName + " " + lastName;
-        } else if (firstName) {
-            return firstName;
-        } else if (lastName) {
-            return lastName;
-        }
-        return "";
-    },
-    
     // Edit an existing item
     editItem: function(itemId) {
         window.location.href = `item-admin.html?id=${itemId}`;
@@ -295,15 +191,14 @@ KarisAntikvariat.Admin = {
             return;
         }
         
-        if (confirm(`Är du säker på att du vill markera "${item.title}" som såld?`)) {
+
             item.status = 'Såld';
             
             // Reload the inventory table
             this.searchItems();
             
-            // Show confirmation
-            alert(`Objekt "${item.title}" har markerats som såld.`);
-        }
+
+        
     },
     
     // Delete an item
@@ -427,45 +322,7 @@ KarisAntikvariat.Admin = {
     }
 };
 
-// Function to update the image preview based on selected category
-function updateNewItemImagePreview() {
-    const category = $("#item-category").val();
-    if (category) {
-        let imageSrc = "img/src-book.webp"; // Default image
-        
-        // Determine image based on category
-        if (category.toLowerCase().includes("bok")) {
-            imageSrc = "img/src-book.webp";
-        } else if (category.toLowerCase().includes("cd")) {
-            imageSrc = "img/src-cd.webp";
-        } else if (category.toLowerCase().includes("vinyl")) {
-            imageSrc = "img/src-music.webp";
-        } else if (category.toLowerCase().includes("serier")) {
-            imageSrc = "img/src-magazine.webp";
-        } else if (category.toLowerCase().includes("dvd")) {
-            imageSrc = "img/src-cd.webp";
-        }
-        
-        $("#new-item-image").attr("src", imageSrc);
-    }
-}
-
-// Enhanced submit handler for the add item form
-function enhanceAddItemForm() {
-    // Update image preview when category changes
-    $("#item-category").change(updateNewItemImagePreview);
-    
-    // Handle clear form button
-    $("#clear-form-btn").click(function() {
-        KarisAntikvariat.Admin.clearAddItemForm();
-    });
-    
-    // Initialize with default image
-    updateNewItemImagePreview();
-}
-
 // Initialize when DOM is ready
 $(document).ready(function() {
     KarisAntikvariat.Admin.init();
-    enhanceAddItemForm();
 });

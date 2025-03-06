@@ -130,7 +130,7 @@
             <!-- Featured Items -->
             <section class="my-5">
                 <h2 class="mb-4">Utvalda objekt</h2>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="featured-items">
+                <div class="row g-4" id="featured-items">
                     <!-- Featured items will be dynamically loaded by JavaScript -->
                 </div>
             </section>
@@ -267,10 +267,10 @@ function loadFeaturedItems() {
             <div class="col">
                 <div class="card h-100">
                     <div class="row g-0 h-100">
-                        <div class="col-4">
+                        <div class="col-6">
                             <img src="${imageSrc}" class="card-img-top h-100 object-fit-cover" alt="${item.title}">
                         </div>
-                        <div class="col-8">
+                        <div class="col-6">
                             <div class="card-body d-flex flex-column h-100">
                                 <h5 class="card-title">${item.title}</h5>
                                 <p class="card-text text-muted flex-grow-1">${item.author}</p>

@@ -213,6 +213,9 @@ window.KarisAntikvariat.Public = {
     
     // Format price with Euro symbol
     formatPrice: function(price) {
+        if (price === "" || price === null || price === undefined) {
+            return ""; // Return empty string for empty price
+        }
         return '€' + parseFloat(price).toFixed(2);
     },
     

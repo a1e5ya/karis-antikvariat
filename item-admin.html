@@ -61,9 +61,6 @@
                                 <div class="col-md-4">
                                     <label for="edit-status" class="form-label">Status</label>
                                     <select class="form-select" id="edit-status">
-                                        <option value="Tillgänglig">Tillgänglig</option>
-                                        <option value="Såld">Såld</option>
-                                        <option value="Reserverad">Reserverad</option>
                                     </select>
                                 </div>
                             </div>
@@ -84,29 +81,12 @@
                                     <label for="edit-category" class="form-label">Kategori</label>
                                     <select class="form-select" id="edit-category" required onchange="updateImagePreview()">
                                         <option value="">Välj kategori</option>
-                                        <option value="Bok - Finlandssvenska">Bok - Finlandssvenska</option>
-                                        <option value="Bok - Lokalhistoria">Bok - Lokalhistoria</option>
-                                        <option value="Bok - Sjöfart">Bok - Sjöfart</option>
-                                        <option value="Bok - Barn/Ungdom">Bok - Barn/Ungdom</option>
-                                        <option value="CD - Musik">CD - Musik</option>
-                                        <option value="Vinyl - Musik">Vinyl - Musik</option>
-                                        <option value="DVD - Film">DVD - Film</option>
-                                        <option value="Serier">Serier</option>
-                                        <option value="Samlarobjekt">Samlarobjekt</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="edit-genre" class="form-label">Genre</label>
                                     <select class="form-select" id="edit-genre">
                                         <option value="">Välj genre</option>
-                                        <option value="Romaner">Romaner</option>
-                                        <option value="Dikter">Dikter</option>
-                                        <option value="Historia">Historia</option>
-                                        <option value="Biografi">Biografi</option>
-                                        <option value="Rock">Rock</option>
-                                        <option value="Jazz">Jazz</option>
-                                        <option value="Klassisk">Klassisk</option>
-                                        <option value="Barnböcker">Barnböcker</option>
                                     </select>
                                 </div>
                             </div>
@@ -120,22 +100,12 @@
                                     <label for="edit-condition" class="form-label">Skick</label>
                                     <select class="form-select" id="edit-condition">
                                         <option value="">Välj skick</option>
-                                        <option value="Nyskick">Nyskick</option>
-                                        <option value="Mycket bra">Mycket bra</option>
-                                        <option value="Bra">Bra</option>
-                                        <option value="Acceptabelt">Acceptabelt</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="edit-shelf" class="form-label">Hyllplats</label>
                                     <select class="form-select" id="edit-shelf">
                                         <option value="">Välj hylla</option>
-                                        <option value="A1">A1</option>
-                                        <option value="A2">A2</option>
-                                        <option value="B1">B1</option>
-                                        <option value="B2">B2</option>
-                                        <option value="C1">C1</option>
-                                        <option value="C2">C2</option>
                                     </select>
                                 </div>
                             </div>
@@ -228,6 +198,7 @@
     <script src="database.js"></script>
     <script src="admin.js"></script>
     <script src="auth.js"></script>
+    <script src="item-management.js"></script>
     <script>
         // Load header and footer
         $(document).ready(function() {
@@ -252,7 +223,7 @@
             if (!isNaN(itemId)) {
                 loadItemDetailsAdmin(itemId);
             } else {
-                alert('Ogiltigt objekt-ID');
+
                 window.location.href = 'inventory.html';
             }
             

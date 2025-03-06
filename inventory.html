@@ -130,8 +130,6 @@
                                             <div class="col-md-4">
                                                 <label for="item-status" class="form-label">Status</label>
                                                 <select class="form-select" id="item-status" name="status">
-                                                    <option value="Tillgänglig" selected>Tillgänglig</option>
-                                                    <option value="Reserverad">Reserverad</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -154,30 +152,11 @@
                                                 <label for="item-category" class="form-label">Kategori</label>
                                                 <select class="form-select" id="item-category" name="category" required
                                                     onchange="updateNewItemImagePreview()">
-                                                    <option value="">Välj kategori</option>
-                                                    <option value="Bok - Finlandssvenska">Bok - Finlandssvenska</option>
-                                                    <option value="Bok - Lokalhistoria">Bok - Lokalhistoria</option>
-                                                    <option value="Bok - Sjöfart">Bok - Sjöfart</option>
-                                                    <option value="Bok - Barn/Ungdom">Bok - Barn/Ungdom</option>
-                                                    <option value="CD - Musik">CD - Musik</option>
-                                                    <option value="Vinyl - Musik">Vinyl - Musik</option>
-                                                    <option value="DVD - Film">DVD - Film</option>
-                                                    <option value="Serier">Serier</option>
-                                                    <option value="Samlarobjekt">Samlarobjekt</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="item-genre" class="form-label">Genre</label>
                                                 <select class="form-select" id="item-genre" name="genre">
-                                                    <option value="">Välj genre</option>
-                                                    <option value="Romaner">Romaner</option>
-                                                    <option value="Dikter">Dikter</option>
-                                                    <option value="Historia">Historia</option>
-                                                    <option value="Biografi">Biografi</option>
-                                                    <option value="Rock">Rock</option>
-                                                    <option value="Jazz">Jazz</option>
-                                                    <option value="Klassisk">Klassisk</option>
-                                                    <option value="Barnböcker">Barnböcker</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -185,29 +164,17 @@
                                         <div class="row mb-3">
                                             <div class="col-md-4">
                                                 <label for="item-price" class="form-label">Pris (€)</label>
-                                                <input type="number" step="0.01" class="form-control" id="item-price"
-                                                    name="price">
+                                                <input type="number" step="0.01" class="form-control" id="item-price" name="price">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="item-condition" class="form-label">Skick</label>
                                                 <select class="form-select" id="item-condition" name="condition">
-                                                    <option value="">Välj skick</option>
-                                                    <option value="Nyskick">Nyskick</option>
-                                                    <option value="Mycket bra">Mycket bra</option>
-                                                    <option value="Bra">Bra</option>
-                                                    <option value="Acceptabelt">Acceptabelt</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="item-shelf" class="form-label">Hyllplats</label>
                                                 <select class="form-select" id="item-shelf" name="shelf">
                                                     <option value="">Välj hylla</option>
-                                                    <option value="A1">A1</option>
-                                                    <option value="A2">A2</option>
-                                                    <option value="B1">B1</option>
-                                                    <option value="B2">B2</option>
-                                                    <option value="C1">C1</option>
-                                                    <option value="C2">C2</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -216,11 +183,6 @@
                                             <div class="col-md-4">
                                                 <label for="item-language" class="form-label">Språk</label>
                                                 <select class="form-select" id="item-language" name="language">
-                                                    <option value="">Välj språk</option>
-                                                    <option value="Svenska">Svenska</option>
-                                                    <option value="Finska">Finska</option>
-                                                    <option value="Engelska">Engelska</option>
-                                                    <option value="Svenska/Engelska">Svenska/Engelska</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -380,12 +342,11 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3 mb-2">
-                                        <button class="btn btn-outline-primary w-100" id="list-no-price">Objekt utan
+                                        <button class="btn btn-outline-primary w-100" id="list-no-price">Utan
                                             pris</button>
                                     </div>
                                     <div class="col-md-3 mb-2">
-                                        <button class="btn btn-outline-primary w-100" id="list-poor-condition">Objekt i
-                                            dåligt skick</button>
+                                        <button class="btn btn-outline-primary w-100" id="list-poor-condition">Dåligt skick</button>
                                     </div>
                                     <div class="col-md-3 mb-2">
                                         <button class="btn btn-outline-primary w-100" id="list-shelf-check">
@@ -417,7 +378,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-4 mb-3 mb-md-0">
                                         <label for="list-categories" class="form-label">Kategori</label>
-                                        <select class="form-select" id="list-categories" multiple size="3">
+                                        <select class="form-select" id="list-categories">
                                             <!-- Will be populated dynamically from database.js -->
                                         </select>
                                     </div>
@@ -715,7 +676,7 @@
     <script src="admin.js"></script>
     <script src="auth.js"></script>
     <script src="filters.js"></script>
-
+    <script src="item-management.js"></script>
     <script>
         // Load header and footer
         $(document).ready(function () {
@@ -728,16 +689,16 @@
                 } else {
                     // User is authenticated - show welcome message
                     showWelcomeMessage();
-
+    
                     // Initialize admin functionality
                     initInventorySystem();
                 }
             });
-
+    
             // Load the admin footer
             $("#footer-container").load("footer-admin.html");
         });
-
+    
         // Initialize inventory system
         function initInventorySystem() {
             // Initialize tabs
@@ -749,77 +710,71 @@
                     tabTrigger.show();
                 });
             });
-
+    
             // Load initial inventory data
             KarisAntikvariat.Admin.loadInventoryItems(KarisAntikvariat.mockItems);
-
+    
             // Make rows clickable after initial load
             makeRowsClickable();
-
+    
             // Set up event handlers for search
-            $('#search-btn').click(searchInventoryItems);
-
+            $('#search-btn').click(KarisAntikvariat.Admin.searchItems.bind(KarisAntikvariat.Admin));
+    
             // Handle Enter key press in search field
             $('#search-term').keypress(function (e) {
                 if (e.which === 13) {
-                    searchInventoryItems();
+                    KarisAntikvariat.Admin.searchItems();
+                }
+            });
+            
+            // Initialize Add Item tab functionality
+            $('#add-tab').click(function() {
+                // Initialize the AddItem module when this tab is activated
+                setTimeout(function() {
+                    KarisAntikvariat.AddItem.init();
+                }, 100);
+            });
+            
+            // If URL fragment is #add, click the add tab
+            if (window.location.hash === '#add') {
+                $('#add-tab').click();
+            }
+            
+            // Set up clear form button in the Add Tab
+            $("#clear-form-btn").click(function() {
+                KarisAntikvariat.AddItem.clearAddItemForm();
+            });
+            
+            // Set up the form in the Add Tab
+            $("#add-item-form").submit(function(e) {
+                e.preventDefault();
+                KarisAntikvariat.AddItem.addNewItem();
+            });
+            
+            // Update image preview when category changes
+            $("#item-category").change(function() {
+                if (KarisAntikvariat.AddItem.updateNewItemImagePreview) {
+                    KarisAntikvariat.AddItem.updateNewItemImagePreview();
                 }
             });
         }
-
+    
         // Make rows clickable in the inventory table
         function makeRowsClickable() {
             // Remove existing event handlers to prevent duplicates
             $('#inventory-body tr').off('click');
-
+    
             // Add click event to inventory rows
             $('#inventory-body tr').click(function () {
                 const itemId = $(this).find('td:first').text(); // Get ID from first column
                 window.location.href = 'item-admin.html?id=' + itemId;
             });
-
+    
             // Add hover class for visual feedback
             $('#inventory-body tr').addClass('clickable-row');
-
+    
             // Apply cursor style directly to ensure it appears
             $('#inventory-body tr').css('cursor', 'pointer');
-        }
-
-        // Search items in inventory
-        function searchInventoryItems() {
-            const searchTerm = $('#search-term').val().toLowerCase();
-            const categoryFilter = $('#category-filter').val();
-
-            // Get all items
-            let items = [];
-
-            // Check if mockItems is available
-            if (window.KarisAntikvariat && window.KarisAntikvariat.mockItems) {
-                items = window.KarisAntikvariat.mockItems;
-            } else {
-                console.warn("Mock items not available, using empty array");
-                return;
-            }
-
-            // Filter items
-            const filteredItems = items.filter(item => {
-                const matchesSearch = !searchTerm ||
-                    item.title.toLowerCase().includes(searchTerm) ||
-                    (item.author && item.author.toLowerCase().includes(searchTerm)) ||
-                    item.id.toString().includes(searchTerm);
-
-                const matchesCategory = categoryFilter === 'any' || !categoryFilter ||
-                    (item.category && item.category.toLowerCase().includes(categoryFilter.toLowerCase())) ||
-                    (item.shelf && item.shelf.toLowerCase().includes(categoryFilter.toLowerCase()));
-
-                return matchesSearch && matchesCategory;
-            });
-
-            // Load filtered items into table
-            KarisAntikvariat.Admin.loadInventoryItems(filteredItems);
-
-            // Make the newly loaded rows clickable
-            makeRowsClickable();
         }
     </script>
 </body>

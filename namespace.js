@@ -14,6 +14,9 @@
             Utils: {
                 // Utility methods
                 formatPrice: function(price) {
+                    if (price === '' || price === null || price === undefined) {
+                        return '€0.00'; // Return zero for empty price instead of showing NaN
+                    }
                     return '€' + parseFloat(price).toFixed(2);
                 },
                 formatDate: function(dateString) {

@@ -157,8 +157,8 @@ setupDatabaseEvents: function() {
                     <td>${category.id}</td>
                     <td>${category.name}</td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${category.id}" data-type="category">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${category.id}" data-type="category">Ta bort</button>
+                        <button class="btn btn-sm btn-outline-primary me-1"  data-type="category">Redigera</button>
+                        <button class="btn btn-sm btn-outline-danger" data-id="${category.id}" data-type="category">Ta bort</button>
                     </td>
                 </tr>
             `;
@@ -177,8 +177,8 @@ setupDatabaseEvents: function() {
                     <td>${shelf.id}</td>
                     <td>${shelf.name}</td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${shelf.id}" data-type="shelf">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${shelf.id}" data-type="shelf">Ta bort</button>  
+                        <button class="btn btn-sm btn-outline-primary me-1" data-id="${shelf.id}" data-type="shelf">Redigera</button>
+                        <button class="btn btn-sm btn-outline-danger" data-id="${shelf.id}" data-type="shelf">Ta bort</button>  
                     </td>
                 </tr>
             `;
@@ -197,8 +197,8 @@ setupDatabaseEvents: function() {
                     <td>${genre.id}</td>
                     <td>${genre.name}</td>  
                     <td>
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${genre.id}" data-type="genre">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${genre.id}" data-type="genre">Ta bort</button>
+                        <button class="btn btn-sm btn-outline-primary me-1" data-id="${genre.id}" data-type="genre">Redigera</button>
+                        <button class="btn btn-sm btn-outline-danger" data-id="${genre.id}" data-type="genre">Ta bort</button>
                     </td>
                 </tr>
             `;
@@ -217,8 +217,8 @@ setupDatabaseEvents: function() {
                     <td>${condition.id}</td>
                     <td>${condition.name} (${condition.code})</td>
                     <td>  
-                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${condition.id}" data-type="condition">Redigera</button>
-                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${condition.id}" data-type="condition">Ta bort</button>
+                        <button class="btn btn-sm btn-outline-primary me-1" data-id="${condition.id}" data-type="condition">Redigera</button>
+                        <button class="btn btn-sm btn-outline-danger" data-id="${condition.id}" data-type="condition">Ta bort</button>
                     </td>
                 </tr>  
             `;
