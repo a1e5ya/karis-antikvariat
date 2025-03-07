@@ -21,9 +21,7 @@
     <div class="container my-4">
         <!-- Inventory System -->
         <div id="inventory-system">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Lagerhanteringssystem</h1>
-            </div>
+
 
             <!-- Tab Navigation Update -->
             <ul class="nav nav-tabs" id="inventory-tabs">
@@ -333,13 +331,7 @@
                 <!-- Lists Tab -->
                 <div class="tab-pane fade" id="lists">
                     <div class="mb-4">
-                        <h3 class="mb-3">Speciallistor och batchåtgärder</h3>
 
-                        <div class="card mb-4">
-                            <div class="card-header bg-light">
-                                <h5 class="mb-0">Vanliga listor</h5>
-                            </div>
-                            <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3 mb-2">
                                         <button class="btn btn-outline-primary w-100" id="list-no-price">Utan
@@ -367,8 +359,7 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </br>
 
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -446,54 +437,7 @@
                             </div>
                         </div>
 
-                        <div class="card mb-4">
-                            <div class="card-header bg-light">
-                                <h5 class="mb-0">Batchåtgärder</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3 mb-2">
-                                        <button class="btn btn-outline-secondary w-100" id="batch-update-price"
-                                            disabled>
-                                            <i class="fas fa-tag me-1"></i> Uppdatera pris
-                                        </button>
-                                    </div>
-
-                                    <div class="col-md-3 mb-2">
-                                        <button class="btn btn-outline-secondary w-100" id="batch-update-status"
-                                            disabled>
-                                            <i class="fas fa-exchange-alt me-1"></i> Ändra status
-                                        </button>
-                                    </div>
-
-                                    <div class="col-md-3 mb-2">
-                                        <button class="btn btn-outline-secondary w-100" id="batch-move-shelf" disabled>
-                                            <i class="fas fa-arrows-alt me-1"></i> Flytta till hylla
-                                        </button>
-                                    </div>
-
-                                    <div class="col-md-3 mb-2">
-                                        <button class="btn btn-outline-danger w-100" id="batch-delete" disabled>
-                                            <i class="fas fa-trash-alt me-1"></i> Ta bort markerade
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-6 mb-2">
-                                        <button class="btn btn-outline-primary w-100" id="print-list-btn">
-                                            <i class="fas fa-print me-1"></i> Skriv ut lista
-                                        </button>
-                                    </div>
-
-                                    <div class="col-md-6 mb-2">
-                                        <button class="btn btn-outline-primary w-100" id="export-csv-btn">
-                                            <i class="fas fa-file-csv me-1"></i> Exportera till CSV
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <div class="table-responsive">
@@ -518,6 +462,9 @@
                         </table>
                     </div>
 
+
+
+                    
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <div class="items-count">
                             <span id="selected-count">0</span> av <span id="total-count">0</span> objekt valda
@@ -529,6 +476,57 @@
                             <button class="btn btn-sm btn-outline-secondary" id="next-page-btn" disabled>»</button>
                         </div>
                     </div>
+                </br>
+
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Batchåtgärder</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 mb-2">
+                                    <button class="btn btn-outline-secondary w-100" id="batch-update-price"
+                                        disabled>
+                                        <i class="fas fa-tag me-1"></i> Uppdatera pris
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3 mb-2">
+                                    <button class="btn btn-outline-secondary w-100" id="batch-update-status"
+                                        disabled>
+                                        <i class="fas fa-exchange-alt me-1"></i> Ändra status
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3 mb-2">
+                                    <button class="btn btn-outline-secondary w-100" id="batch-move-shelf" disabled>
+                                        <i class="fas fa-arrows-alt me-1"></i> Flytta till hylla
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3 mb-2">
+                                    <button class="btn btn-outline-danger w-100" id="batch-delete" disabled>
+                                        <i class="fas fa-trash-alt me-1"></i> Ta bort markerade
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6 mb-2">
+                                    <button class="btn btn-outline-primary w-100" id="print-list-btn">
+                                        <i class="fas fa-print me-1"></i> Skriv ut lista
+                                    </button>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <button class="btn btn-outline-primary w-100" id="export-csv-btn">
+                                        <i class="fas fa-file-csv me-1"></i> Exportera till CSV
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Batch Update Price Modal -->
@@ -776,6 +774,94 @@
             // Apply cursor style directly to ensure it appears
             $('#inventory-body tr').css('cursor', 'pointer');
         }
+
+        $(document).ready(function() {
+        // Set up event handling for when the Lists tab is activated
+        $('#lists-tab').on('click', function() {
+            // Allow some time for the tab content to be fully loaded
+            setTimeout(setupAdvancedFilterToggle, 200);
+        });
+        
+        // Also initialize if we directly navigate to the Lists tab via URL fragment
+        if (window.location.hash === '#lists') {
+            setTimeout(setupAdvancedFilterToggle, 200);
+        }
+        
+        // Hook into the Filters initialization if it exists
+        if (window.KarisAntikvariat && window.KarisAntikvariat.Filters) {
+            const originalFiltersInit = window.KarisAntikvariat.Filters.init;
+            window.KarisAntikvariat.Filters.init = function() {
+                // Call the original init function
+                originalFiltersInit.apply(this, arguments);
+                
+                // Then enhance the tab with our collapsible functionality
+                setupAdvancedFilterToggle();
+            };
+        }
+    });
+
+    // Function to set up the collapsible advanced filter section
+    function setupAdvancedFilterToggle() {
+        // Get reference to the advanced filtering card (second card in the Lists tab)
+        const filterCard = document.querySelector('#lists .card:nth-of-type(2)');
+        
+        if (!filterCard) return; // Exit if card not found
+        
+        // Get the card header and body
+        const cardHeader = filterCard.querySelector('.card-header');
+        const cardBody = filterCard.querySelector('.card-body');
+        
+        // If we already added the toggle, don't add it again
+        if (cardHeader && cardHeader.querySelector('.toggle-icon')) return;
+        
+        // Create the toggle icon and add it to the header
+        if (cardHeader) {
+            // Adjust the layout of the header
+            cardHeader.style.display = 'flex';
+            cardHeader.style.justifyContent = 'space-between';
+            cardHeader.style.alignItems = 'center';
+            
+            // Get the title element (h5)
+            const title = cardHeader.querySelector('h5');
+            if (title) {
+                // Keep title on the left, just make sure it's vertically centered
+                title.style.marginBottom = '0';
+            }
+            
+            // Add a clickable icon to the header (on the right)
+            const toggleIcon = document.createElement('i');
+            toggleIcon.className = 'fas fa-chevron-down toggle-icon';
+            toggleIcon.style.cursor = 'pointer';
+            toggleIcon.style.transition = 'transform 0.3s';
+            toggleIcon.style.fontSize = '1.2rem';
+            toggleIcon.style.marginLeft = 'auto'; // Push to the right
+            
+            // Add the icon to the end of the header
+            cardHeader.appendChild(toggleIcon);
+            
+            // Make the entire header clickable
+            cardHeader.style.cursor = 'pointer';
+            
+            // Hide the card body by default
+            if (cardBody) {
+                cardBody.style.display = 'none';
+            }
+            
+            // Click handler for the header
+            cardHeader.addEventListener('click', function() {
+                if (cardBody) {
+                    // Toggle the display
+                    if (cardBody.style.display === 'none') {
+                        cardBody.style.display = 'block';
+                        toggleIcon.style.transform = 'rotate(180deg)';
+                    } else {
+                        cardBody.style.display = 'none';
+                        toggleIcon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+        }
+    }
     </script>
 </body>
 
