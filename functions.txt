@@ -1,13 +1,20 @@
 1. Core Utilities (core.js)
 
+// Form and Input Handling
 validateItemForm(formData): Validates form data for item forms
 sanitizeInput(input): Cleans user input to prevent XSS attacks
+
+// Search and Filtering
 performAdvancedSearch(items, searchParams): Searches across multiple fields with filters
 filterItemsByCategory(items, category): Filters items by specific category
 filterItemsByPrice(items, minPrice, maxPrice): Filters items by price range
 sortItems(items, sortBy, ascending): Sorts items based on various criteria
+
+// Export and Reporting
 exportToCSV(items, fields): Exports inventory data to CSV format
 generateInventoryReport(items): Creates comprehensive inventory statistics
+
+// Formatting and Utility
 formatCurrency(amount, currencySymbol): Formats prices with currency symbol
 parseDate(dateString, format): Formats dates consistently
 generateUniqueId(existingItems): Creates new unique IDs for items
@@ -16,23 +23,42 @@ debounce(func, wait): Limits function call frequency for performance
 
 2. Database Management (database.js)
 
+// Reference Data Loading
 loadDatabaseReferences(): Loads all reference data
-setupDatabaseEvents(): Sets up event handlers for database management
 loadCategories(): Populates category management table
 loadShelves(): Populates shelf management table
 loadGenres(): Populates genre management table
 loadConditions(): Populates condition management table
+
+// Reference Data Operations
 addDatabaseItem(type): Adds new reference item (category, shelf, etc.)
 editDatabaseItem(type, id): Edits existing reference item
 deleteDatabaseItem(type, id): Deletes reference item with usage check
+getTypeName(type): Returns Swedish name for a database type
+
+// Utility Functions
+getAllCategories(): Gets array of category names
+getAllShelves(): Gets array of shelf names
+getAllGenres(): Gets array of genre names
+getAllConditions(): Gets array of condition names
+getAllStatusTypes(): Gets array of status types
+formatCondition(condition): Formats item condition for display
+getConditionByNameOrCode(nameOrCode): Retrieves condition by name or code
+
+// UI Updates
 updateDropdowns(type): Updates all dropdown menus related to a type
 updateCategoryDropdowns(): Updates category dropdown menus
 updateShelfDropdowns(): Updates shelf location dropdown menus
 updateGenreDropdowns(): Updates genre dropdown menus
 updateConditionDropdowns(): Updates condition dropdown menus
-getTypeName(type): Returns Swedish name for a database type
+
+// Lookup Functions
 findByName(collection, name): Generic lookup function
-getCategoryByName(name), getShelfByName(name), etc.: Specific lookup functions
+getCategoryByName(name): Looks up category by name
+getShelfByName(name): Looks up shelf by name
+getGenreByName(name): Looks up genre by name
+getConditionByName(name): Looks up condition by name
+getStatusByName(name): Looks up status by name
 formatPrice(price): Formats price with Euro symbol
 formatDate(dateString): Formats date according to locale
 
@@ -41,62 +67,94 @@ formatDate(dateString): Formats date according to locale
 isAuthenticated(): Checks if user is authenticated via session storage
 showLoginModal(): Displays login dialog with form reset
 showWelcomeMessage(): Displays welcome message after successful login
-Event handlers for login, logout, and password reset functionality
 
 4. Admin Interface (admin.js)
 
+// Initialization
 init(): Initializes admin interface and loads required components
 initializeTabs(): Sets up Bootstrap tab navigation
 setupEventHandlers(): Configures all event listeners for admin interface
+
+// Inventory Management
 loadInventoryItems(items): Displays items in inventory table with actions
 loadListsItems(items): Displays items in lists table with selection options
 searchItems(): Filters inventory based on search criteria and category
-clearAddItemForm(): Resets the add item form
-addNewItem(): Validates and adds new item to inventory
-combineAuthorName(firstName, lastName): Combines author first and last name
-editItem(id): Navigates to item edit page
 sellItem(id): Marks item as sold and updates inventory
 deleteItem(id): Removes item from inventory with confirmation
 viewItem(id): Navigates to item details page
+
+// List Operations
 toggleSelectAll(): Toggles select all checkbox for lists
 handlePrintList(): Prepares selected items for printing
 printList(items): Opens a new window with printable list
-updateNewItemImagePreview(): Updates image preview based on category
-enhanceAddItemForm(): Sets up additional form behavior
 
-5. Public Interface (public.js)
+5. Filters Module (filters.js)
 
+// Initialization and Setup
+init(): Initializes the Filters module
+populateDropdowns(): Populates all filter dropdown menus
+setupEventHandlers(): Sets up event handlers for the Lists tab
+
+// Filtering Operations
+filterItemsWithoutPrice(): Filters items that don't have a price
+filterItemsByPoorCondition(): Filters items in poor condition
+filterItemsByShelf(shelf): Filters items by shelf location
+filterItemsOlderThan(year): Filters items older than a specific year
+applyCustomFilters(): Applies multiple custom filter criteria
+updateSelectedItems(): Updates the array of selected item IDs
+
+// Batch Operations
+updatePriceForSelectedItems(): Updates price for selected items
+updateStatusForSelectedItems(): Updates status for selected items
+moveSelectedItemsToShelf(): Moves selected items to a new shelf
+deleteSelectedItems(): Deletes selected items after confirmation
+
+// Display Operations
+renderPage(): Renders the current page of filtered items
+updateBatchActionButtons(): Updates batch action button states
+updatePaginationControls(): Updates pagination UI elements
+resetPagination(): Resets pagination to first page
+showFilterNotification(): Shows notification after filtering
+
+// Export Operations
+printCurrentList(): Opens print window with current list
+exportListToCSV(): Exports current list to CSV file
+
+6. Public Interface (public.js)
+
+// Initialization and Setup
 init(): Initializes public interface components
 getText(key): Gets translated string based on current language
 switchLanguage(lang): Changes interface language and updates UI
 updateInterfaceLanguage(): Updates UI text based on selected language
-loadItemDetails(itemId): Shows detailed information for a specific item
-loadRelatedItems(currentItem): Displays related items based on category/author
 initNewsletterForm(): Handles newsletter subscription form submissions
 initLanguageSwitcher(): Sets up language switching functionality
+initSmoothScrolling(): Enables smooth scrolling for anchor links
+
+// Item Display
+loadItemDetails(itemId): Shows detailed information for a specific item
+loadRelatedItems(currentItem): Displays related items based on category/author
 getCategoryImage(category): Gets appropriate image based on item category
 formatPrice(price): Formats price with Euro symbol
 formatDate(dateString): Formats date according to locale
 getUrlParameter(name): Extracts parameters from URL
-initSmoothScrolling(): Enables smooth scrolling for anchor links
 
-6. Item Page Functions (item.html, item-admin.html)
+7. Item Management (item-management.js)
 
-loadItemDetails(itemId): Loads item details for public view
-loadItemDetailsAdmin(itemId): Loads item details for admin editing
+// Item Admin Module
+loadItemDetails(itemId): Loads item details for admin editing
+loadTransactionHistory(item): Loads and displays item history
+setupEventHandlers(): Sets up event handlers for item admin page
 updateImagePreview(): Updates item image based on selected category
+getCategoryImage(category): Gets appropriate image for category
+handleImageUpload(input): Handles image upload (currently mocked)
 saveItemChanges(): Saves edits to item details
 confirmDeleteItem(): Confirms and processes item deletion
-getCategoryImage(category): Gets appropriate image for category
+combineAuthorName(firstName, lastName): Combines author names
 
-7. Homepage Functions (index.html)
-
-loadFeaturedItems(): Displays featured items on homepage
-loadPublicInventory(): Displays available items in public inventory table
-searchPublicInventory(): Filters public inventory based on search criteria
-
-8. Inventory Page Functions (inventory.html)
-
-initInventorySystem(): Initializes inventory management system
-makeRowsClickable(): Makes table rows clickable
-searchInventoryItems(): Searches and filters inventory items
+// Add Item Module
+populateDropdowns(): Populates all dropdown menus for add item form
+updateNewItemImagePreview(): Updates new item image based on category
+handleImageUpload(input): Handles image upload for new items
+clearAddItemForm(): Resets the add item form
+addNewItem(): Validates and adds new item to inventory

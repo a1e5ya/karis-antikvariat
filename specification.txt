@@ -1,260 +1,82 @@
 # Karis Antikvariat - Inventory System Specification
 
 ## 1. System Overview
-The Karis Antikvariat Inventory System is a comprehensive web-based application designed to manage inventory for a bookstore specializing in finlandssvenska (Finland-Swedish) literature, local history, and maritime books, as well as various media items (CDs, vinyl records, DVDs, video games, board games etc.). The system aims to streamline inventory management, facilitate easier search capabilities, standardize pricing, and prepare for future e-commerce integration.
+Karis Antikvariat Inventory System is a web-based application for managing inventory for a bookstore specializing in Finland-Swedish literature, local history, and maritime books, as well as various media items (CDs, vinyl records, DVDs, comics, and collectibles). The system streamlines inventory management, enables comprehensive search capabilities, and prepares for future e-commerce integration.
 
-## 2. User Roles and Access Control
-- **Admin**: Full access to all system features, user management, and settings
-- **Content Admin**: Create, edit, sell items, and generate reports/lists
-- **Guest**: Search-only access on the public-facing website
+## 2. Current Implementation Status
 
-The system will maintain an event log tracking all actions and the users who performed them.
+### 2.1 Completed Components
+- Core utility functions for data manipulation, search, and formatting
+- Public-facing interface with browsing and detailed item views
+- Administrative interface with inventory management capabilities
+- Authentication system using session storage (simplified implementation)
+- Multilingual support (Swedish/Finnish) for public interface
+- Reference data management (categories, shelves, genres, conditions)
+- Batch operations and list generation features
+- CSV export functionality
+- Print-friendly list generation
 
-## 3. Database Architecture
+### 2.2 Pending/Incomplete Components
+- Backend integration (currently uses JavaScript mock data)
+- Actual file upload for item images
+- User management with different access levels
+- Sales tracking and complete reporting
+- E-commerce integration
+- Some administrative functions are stubbed (saveItemChanges, addNewItem)
 
-### Database Schema
+## 3. Data Architecture
 
-#### Core Tables:
-- **table_product**
-  - prod_id (int, PK)
-  - prod_title (varchar(255))
-  - prod_price (decimal(10,2))
-  - prod_status (varchar(50)) - Available, Sold
-  - prod_category_fk (int, FK)
-  - prod_condition_fk (int, FK)
-  - prod_shelf_fk (int, FK)
-  - prod_created (datetime)
-  - prod_language (varchar(50))
-  - prod_year (int)
-  - prod_publisher (varchar(100))
-  - prod_first_edition (boolean)
-  - prod_notes (text)
-  - prod_special_price (boolean)
-  - prod_rare (boolean)
-  - prod_thumbnail (varchar(255)) - path to image
+### 3.1 Current Storage
+- Uses JavaScript objects in mockItems.js for simulating database
+- Reference data (categories, shelves, etc.) in database.js
 
-- **table_author**
-  - author_id (int, PK)
-  - author_fname (varchar(100))
-  - author_sname (varchar(100))
+### 3.2 Data Structure
+- Product data includes: ID, title, author, category, shelf, genre, condition, price, status, etc.
+- Reference data: categories, shelves, genres, conditions, status types
+- Each item can have additional metadata: language, year, publisher, notes, etc.
 
-- **table_genre**
-  - genre_id (int, PK)
-  - genre_name (varchar(100))
+## 4. User Interface
 
-- **table_category**
-  - category_id (int, PK)
-  - category_name (varchar(100))
+### 4.1 Public Interface
+- Homepage with featured items and browsing functionality
+- Item detail pages with related items
+- Search by title, author, or category
+- Language switching between Swedish and Finnish
+- Newsletter subscription (simulated)
 
-- **table_shelf**
-  - shelf_id (int, PK)
-  - shelf_name (varchar(100))
+### 4.2 Administrative Interface
+- Tabbed interface with:
+  - Search tab for browsing and managing inventory
+  - Add Item tab for adding new items
+  - Edit Database tab for managing reference data
+  - Lists tab for advanced filtering and batch operations
+- Item detail page for editing individual items
+- Authentication with login/logout
 
-- **table_condition**
-  - condition_id (int, PK)
-  - condition_class (varchar(50)) - K-1 to K-4 rating system
+## 5. Core Functionality
 
-- **table_product_author** (many-to-many)
-  - product_author_id (int, PK)
-  - author_fk (int, FK)
-  - product_fk (int, FK)
-
-- **table_product_genre** (many-to-many)
-  - product_genre_id (int, PK)
-  - genre_fk (int, FK)
-  - product_fk (int, FK)
-
-- **table_users**
-  - user_id (int, PK)
-  - username (varchar(50))
-  - password_hash (varchar(255))
-  - user_role (varchar(20))
-  - user_name (varchar(100))
-  - user_email (varchar(100))
-  - last_login (datetime)
-  - created_at (datetime)
-  - is_active (boolean)
-
-- **table_event_log** (NEW)
-  - event_id (int, PK)
-  - user_fk (int, FK)
-  - event_type (varchar(50))
-  - event_description (text)
-  - event_timestamp (datetime)
-  - affected_item_id (int)
-
-- **table_newsletter_subscribers** (NEW)
-  - subscriber_id (int, PK)
-  - email (varchar(100))
-  - name (varchar(100))
-  - subscribed_date (datetime)
-  - is_active (boolean)
-  - language_preference (varchar(10))
-
-## 4. Page Structure
-
-### 4.1 Home Page (Public-Facing)
-- **Header**
-  - Logo and site name
-  - Navigation menu (Home, About Us, Browse Books)
-  - Language switcher (Finnish/Swedish)
-  - Login button
-
-- **Hero Section**
-  - Welcome message with store description
-  - Call-to-action button to browse inventory
-
-- **About Section**
-  - Store description highlighting specializations (Finland-Swedish literature, local history, maritime books)
-  - Store image
-  - Brief overview of other offerings (children's books, comics, DVDs, CDs, vinyl, collectibles)
-
-- **Browse Section**
-  - Search bar with title/author/category search (one text input field, title/author/category options checkboxes under)
-  - Results display in table format showing:
-    - Category
-    - Title
-    - Author
-  - Every result is a link to single item page
-
-
-
-- **Featured Items Section**
-  - Display of highlighted or new items in card format
-
-- **Footer**
-  - Contact information (address, phone, email)
-  - Social media links (Facebook)
-  - Business ID
-  - Opening hours
-  - Shipping information
-  - Newsletter subscription form
-  - Copyright information
-
-### 4.2 Inventory System (Staff Interface)
-- **Header**
-  - Logo and site name
-  - Navigation link to home page
-  - Logout button
-
-- **Main Interface** (tabbed layout)
-  - **Search Tab** (default)
-    - Search field for title, author, ID
-    - Category filter dropdown
-    - Results table with columns for:
-      - ID
-      - Title
-      - Author
-      - Category
-      - Shelf location
-      - Price
-      - Status
-      - Action buttons (Edit, Sell, Delete)
-
-  - **Add Item Tab**
-    - Form with fields for:
-      - Category (dropdown)
-      - Title (text input)
-      - Author First/Last Name (text inputs)
-      - Genre (dropdown)
-      - Condition (dropdown - K-1 to K-4)
-      - Shelf Location (dropdown)
-      - Price (numeric input)
-      - Language (dropdown)
-      - Publisher (text input)
-      - Year (numeric input)
-      - First Edition checkbox
-      - Notes (textarea)
-      - Internal notes (not visible for clients)
-      - Special Price checkbox
-      - Rare Item checkbox
-      - Image upload option
-      - Submit and Clear buttons
-
-    - **Edit Database Tab**
-    - Form with fields for:
-      - Add 
-      - Edit
-      - Delete
-      Catwgories, locations, genres, etc.
-
-  - **Lists Tab**
-    - List type selection (All Items, Custom Lists)
-    - Advanced filtering options:
-      - Multi-select category filters
-      - Price range filters
-      - Status filters (Available, Sold)
-      - Condition filters
-      - Date range filters
-    - Results table with checkboxes for selection
-    - Buttons for printing selected items
-    - Export option for WooCommerce compatibility
-
-- **Footer**
-  - Only Copyright information
-
-### 4.3 Single Item Page (Public-Facing)
-- **Header**
-  - Same as home page
-
-- **Item Detail Section**
-  - Item image (left column)
-  - Item details (right column):
-    - Title and Author
-    - Availability Status badge
-    - Category, Genre, Condition information
-    - Shelf location reference
-    - Price
-    - Item description/notes
-
-- **Related Items Section**
-  - Display of 3-4 related items based on author, category, or genre
-
-- **Footer**
-  - Same as home page
-
-## 5. Functionality
-
-### 5.1 User Management
-- User creation, editing, and deactivation
-- Role-based access control
-- Password reset functionality
-- Login/logout with session management
-
-### 5.2 Inventory Management
+### 5.1 Inventory Management
 - Add new items with comprehensive metadata
 - Edit existing items
 - Mark items as sold
 - Delete items from inventory
-- Bulk operations for similar items
+- View item history
 
-### 5.3 Search Functionality
-- Search by author, title, publisher, year
-- Filter by condition, genre, format, language, first edition
-- Advanced search options for staff
-- Basic search for public visitors
+### 5.2 Search and Filtering
+- Basic search by title, author, and ID
+- Category filtering
+- Advanced filtering with multiple criteria
+- Specialized filters (items without price, items in poor condition, etc.)
 
-### 5.4 List Generation
-- Generate lists of items by shelf (for inventory checking)
-- Generate lists of items in poor condition (for sales)
-- Generate lists of older items (for sales)
-- Generate lists of items missing prices (for bulk pricing)
-- Print and export capabilities for all lists
+### 5.3 Batch Operations
+- Update price for multiple items
+- Update status for multiple items
+- Move multiple items to a new shelf
+- Delete multiple items
 
-### 5.5 Sales Tracking
-- Mark items as sold
-- Maintain sales history
-- Update inventory status automatically
-
-### 5.6 Public Access
-- Allow public browsing of available inventory
-- Display only available items on public interface
-- Provide detailed view of individual items
-
-### 5.7 Newsletter Management
-- Allow visitors to subscribe to newsletter
-- Store subscriber information
-- Track language preferences
+### 5.4 Data Export
+- Print lists of items
+- Export to CSV format
 
 ## 6. Technical Requirements
 
@@ -265,83 +87,16 @@ The system will maintain an event log tracking all actions and the users who per
 - jQuery and JavaScript for dynamic elements
 - Bilingual support (Swedish and Finnish)
 
-### 6.2 Backend
+### 6.2 Planned Backend
 - PHP for server-side logic
 - MySQL database for data storage
 - Session management for user authentication
 - Export/import compatibility with WooCommerce
 
-### 6.3 Security
+### 6.3 Planned Security
 - Input validation
 - SQL injection prevention
 - XSS protection
 - CSRF protection
 - Secure password hashing
 - Role-based access control
-
-
-
-
-
-Modular System Specification
-File Structure
-
-Core HTML Templates
-
-header-public.html - Header for public-facing pages
-footer-public.html - Footer for public-facing pages
-header-admin.html - Header for inventory system pages
-footer-admin.html - Footer for inventory system (simplified)
-
-
-Public-Facing Pages
-
-index.html - Homepage (includes header-public and footer-public)
-item.html - Single item page with short info (includes header-public and footer-public)
-
-
-Admin Pages
-
-inventory.html - Inventory management system (includes header-admin and footer-admin)
-item-admin.html - Extended item details (includes header-admin and footer-admin)
-
-
-JavaScript Files
-
-script.js - Single JavaScript file containing all functionality
-
-
-CSS Files
-
-styles.css - Unified stylesheet (can be kept as is)
-
-
-
-Implementation Details
-
-Templates
-
-Use JavaScript to load header and footer content dynamically
-Implement conditional logic to activate relevant navigation items
-
-
-JavaScript Organization
-
-Organize functions into logical sections (e.g., public interface, inventory management)
-Use namespacing to avoid function name collisions
-Implement module pattern for better code organization
-
-
-Data Management
-
-Keep mock data centralized
-Implement functions to filter and process data for both public and admin views
-
-
-Dynamic Content Loading
-
-Use JavaScript to detect current page and load appropriate content
-
-
-
-This modular approach will make your codebase more maintainable, reduce redundancy, and allow for easier updates in the future. Each module will have a specific responsibility, making debugging and extension simpler.

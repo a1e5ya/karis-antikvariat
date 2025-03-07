@@ -26,7 +26,7 @@ window.KarisAntikvariat.ItemAdmin = {
         if (!isNaN(itemId)) {
             this.loadItemDetails(itemId);
         } else {
-            alert('Ogiltigt objekt-ID');
+        
             window.location.href = 'inventory.html';
             return;
         }
