@@ -84,7 +84,7 @@ KarisAntikvariat.Admin = {
                     <td>
                         <div class="btn-group btn-group-sm">
                             <button class="btn sell-btn action-btn ${sellBtnDisabled}" data-id="${item.id}" ${sellBtnDisabled}>Sälj</button>
-                            <button class="btn btn-outline-danger action-btn delete-btn" data-id="${item.id}">Ta bort</button>
+                           
                         </div>
                     </td>
                 </tr>
